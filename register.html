@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — Midnight Help</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/forms.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to registration form</a>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-text">Midnight <span>Help</span></div></a>
+  <ul class="nav-links">
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="signin.html" class="nav-signin">Sign In</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Home</a>
+  <a href="index.html#services">Services</a>
+  <a href="signin.html">Sign In</a>
+</div>
+
+<main id="main-content">
+  <div class="auth-page">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-panel-left">
+      <div class="panel-glow"></div>
+      <a href="index.html" class="auth-brand-logo"><div class="logo-text">Midnight <span>Help</span></div></a>
+      <h1 class="auth-panel-heading">Join the<br><span class="accent">Network.</span></h1>
+      <p class="auth-panel-desc">Register and get access to community volunteers ready to help with elderly care, vehicle repairs, and driving assistance during the night.</p>
+      <ul class="auth-trust-list">
+        <li class="auth-trust-item"><span class="check">✓</span>Admin-verified volunteers only</li>
+        <li class="auth-trust-item"><span class="check">✓</span>Focused on night-time assistance</li>
+        <li class="auth-trust-item"><span class="check">✓</span>Your data is safe and private</li>
+        <li class="auth-trust-item"><span class="check">✓</span>Instant SOS for emergencies</li>
+      </ul>
+      <div style="margin-top:2rem;padding:1.1rem;background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--radius)">
+        <p style="font-size:var(--text-sm);color:var(--text);line-height:1.6">
+          <strong style="color:var(--white)">Are you a volunteer?</strong><br/>
+          Volunteers are added by the admin after verification. Contact
+          <a href="mailto:admin@midnighthelp.org" style="color:var(--blue-light)">admin@midnighthelp.org</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-panel-right">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem" class="font-size-control">
+        <span>Text:</span>
+        <button class="font-size-btn" data-action="decrease">A−</button>
+        <button class="font-size-btn" data-action="reset">A</button>
+        <button class="font-size-btn" data-action="increase">A+</button>
+      </div>
+
+      <div class="form-card">
+        <h2 class="form-card-title">Create Account</h2>
+        <p class="form-card-sub">Fields marked <span style="color:var(--sos-light)">*</span> are required.</p>
+
+        <div class="form-steps-indicator">
+          <div class="form-step-dot active" data-step="1"></div>
+          <div class="form-step-dot" data-step="2"></div>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="form-success-box" id="register-success">
+          <div class="success-icon">✅</div>
+          <h3>Account Created!</h3>
+          <p>Welcome to Midnight Help. Check your email to verify your account, then <a href="signin.html" style="color:var(--blue-light)">sign in here</a>.</p>
+        </div>
+
+        <form id="register-form" novalidate>
+
+          <!-- STEP 1 -->
+          <div class="form-step-panel active" data-step="1">
+            <div class="step-label">Step 1 of 2 — Personal Details</div>
+            <div class="form-row-2">
+              <div class="field">
+                <label for="fname">First Name <span style="color:var(--sos-light)">*</span></label>
+                <input type="text" id="fname" autocomplete="given-name" placeholder="e.g. Rajan"/>
+                <span class="field-error" id="err-fname"></span>
+              </div>
+              <div class="field">
+                <label for="lname">Last Name <span style="color:var(--sos-light)">*</span></label>
+                <input type="text" id="lname" autocomplete="family-name" placeholder="e.g. Pillai"/>
+                <span class="field-error" id="err-lname"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="email">Email Address <span style="color:var(--sos-light)">*</span></label>
+              <input type="email" id="email" autocomplete="email" placeholder="you@example.com" inputmode="email"/>
+              <span class="field-error" id="err-email"></span>
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number <span style="color:var(--sos-light)">*</span></label>
+              <input type="tel" id="phone" autocomplete="tel" placeholder="+91 98765 43210" inputmode="tel"/>
+              <span class="field-error" id="err-phone"></span>
+            </div>
+            <div class="field">
+              <label for="dob">Date of Birth <span style="color:var(--sos-light)">*</span></label>
+              <input type="date" id="dob" autocomplete="bday"/>
+              <span class="field-hint">Helps us provide age-appropriate assistance</span>
+              <span class="field-error" id="err-dob"></span>
+            </div>
+            <button type="button" id="step-next-btn" class="btn-form-submit" style="margin-top:.5rem">Continue →</button>
+            <div class="form-link-row">Already have an account? <a href="signin.html">Sign in here</a></div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="form-step-panel" data-step="2">
+            <div class="step-label">Step 2 of 2 — Account Security</div>
+            <div class="field">
+              <label for="password">Create Password <span style="color:var(--sos-light)">*</span></label>
+              <div class="password-wrap">
+                <input type="password" id="password" autocomplete="new-password" placeholder="Minimum 8 characters"/>
+                <button type="button" class="toggle-password" data-target="password">👁️</button>
+              </div>
+              <div class="strength-bar-wrap" id="strength-bar">
+                <div class="strength-bar-segment"></div>
+                <div class="strength-bar-segment"></div>
+                <div class="strength-bar-segment"></div>
+                <div class="strength-bar-segment"></div>
+                <div class="strength-bar-segment"></div>
+              </div>
+              <span class="strength-label" id="strength-label"></span>
+              <span class="field-error" id="err-password"></span>
+            </div>
+            <div class="field">
+              <label for="cpassword">Confirm Password <span style="color:var(--sos-light)">*</span></label>
+              <div class="password-wrap">
+                <input type="password" id="cpassword" autocomplete="new-password" placeholder="Re-enter your password"/>
+                <button type="button" class="toggle-password" data-target="cpassword">👁️</button>
+              </div>
+              <span class="field-error" id="err-cpassword"></span>
+            </div>
+            <div class="check-field">
+              <input type="checkbox" id="terms"/>
+              <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            </div>
+            <div style="display:flex;gap:.8rem">
+              <button type="button" id="step-back-btn" class="btn btn-outline" style="flex:1;min-width:100px;display:none">← Back</button>
+              <button type="submit" id="register-submit-btn" class="btn-form-submit" style="flex:2;display:none">✅ Create Account</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<button class="sos-float" onclick="openSOSModal()" aria-label="Emergency SOS">
+  <span class="sos-float-text">SOS</span><span class="sos-float-label">Emergency</span>
+</button>
+
+<div class="modal-overlay" id="sos-modal-overlay" onclick="closeSOSModal(event)" hidden>
+  <div class="modal" style="border-top-color:var(--sos)">
+    <button class="modal-close-btn" onclick="closeSOSModal(event)">✕</button>
+    <div class="sos-modal-icon">🚨</div>
+    <h2 class="sos-modal-title">Emergency SOS</h2>
+    <div class="sos-modal-warning">This will <strong>immediately alert all active volunteers and the admin</strong>.</div>
+    <div class="field"><label for="sos-name">Your Name</label><input type="text" id="sos-name" placeholder="Optional"/></div>
+    <div class="field"><label for="sos-detail">Describe your emergency <span style="color:var(--sos-light)">*</span></label><input type="text" id="sos-detail" placeholder="Brief description"/></div>
+    <div class="field">
+      <label for="sos-location">Location</label>
+      <div style="display:flex;gap:.6rem">
+        <input type="text" id="sos-location" style="flex:1" readonly placeholder="Auto-detect or type"/>
+        <button id="sos-locate-btn" class="btn btn-outline btn-sm">📍 Locate</button>
+      </div>
+    </div>
+    <button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:.5rem">🚨 Send Alert</button>
+    <div class="sos-confirm-box" id="sos-confirm-box">✓ Alert Sent — Help is on the way.</div>
+  </div>
+</div>
+
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script src="js/sos.js"></script>
+<script src="js/forms.js"></script>
+</body>
+</html>

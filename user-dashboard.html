@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Dashboard — Midnight Help</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar" role="navigation" aria-label="Dashboard navigation">
+    <div class="dash-sidebar-logo">
+      <a href="index.html" class="nav-logo-text" style="font-size:1.2rem;padding-left:.6rem;border-left:3px solid var(--blue)">Midnight <span style="color:var(--blue-light)">Help</span></a>
+    </div>
+    <nav class="dash-sidebar-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="user-dashboard.html" class="dash-nav-link active"><span class="nav-icon"></span> Dashboard</a>
+      <a href="request-service.html" class="dash-nav-link"><span class="nav-icon"></span> New Request</a>
+      <div class="dash-nav-section">History</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> My Requests</a>
+      <div class="dash-nav-section">Account</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Profile</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Settings</a>
+      <a href="index.html" class="dash-nav-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon">🚪</span> Sign Out</a>
+    </nav>
+    <div class="dash-sidebar-footer">
+      <div class="dash-user-chip">
+        <div class="dash-user-avatar">RP</div>
+        <div><div class="dash-user-name">Sharukh Kumar</div><div class="dash-user-role">User</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="dash-topbar-left">
+        <h1 class="dash-topbar-title">My Dashboard</h1>
+      </div>
+      <div class="dash-topbar-right">
+        <div class="font-size-control">
+          <button class="font-size-btn" data-action="decrease" title="Smaller text">A−</button>
+          <button class="font-size-btn" data-action="reset" title="Normal text">A</button>
+          <button class="font-size-btn" data-action="increase" title="Larger text">A+</button>
+        </div>
+        <button class="btn btn-sos btn-sm" onclick="openSOSModal()">🚨 SOS</button>
+        <a href="request-service.html" class="btn btn-primary btn-sm">+ New Request</a>
+      </div>
+    </header>
+
+    <div class="dash-content">
+
+      <!-- Alert banner -->
+      <div class="alert-banner info">
+        <span>ℹ️</span>
+        <span>Welcome back, SRK. You have <strong>1 active request</strong> in progress.</span>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="dash-grid-4">
+        <div class="stat-card stat-card-accent">
+          <div class="stat-card-top"><div class="stat-card-label">Total Requests</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">7</div>
+          <div class="stat-card-sub">Since joining</div>
+        </div>
+        <div class="stat-card stat-card-green">
+          <div class="stat-card-top"><div class="stat-card-label">Completed</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">6</div>
+          <div class="stat-card-sub">Successfully resolved</div>
+        </div>
+        <div class="stat-card stat-card-amber">
+          <div class="stat-card-top"><div class="stat-card-label">Active</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">1</div>
+          <div class="stat-card-sub">In progress now</div>
+        </div>
+        
+      </div>
+
+      <!-- Active request + quick actions -->
+      <div class="dash-grid-2">
+        <div class="panel-card">
+          <div class="panel-card-title">Active Request <span class="badge badge-amber">In Progress</span></div>
+          <div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">
+            <div class="request-card-icon vehicle">🔧</div>
+            <div class="request-card-body">
+              <div class="request-card-title">Vehicle Repair — Flat Tyre</div>
+              <div class="request-card-meta">📍 NH66 near Varkala · Submitted 8:32 PM</div>
+              <div style="margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap">
+                <span class="badge badge-amber">Volunteer En Route</span>
+              </div>
+              <div style="margin-top:.9rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem">
+                <div style="font-size:var(--text-xs);color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Assigned Volunteer</div>
+                <div style="display:flex;align-items:center;gap:.7rem">
+                  <div class="dash-user-avatar" style="width:30px;height:30px;font-size:.75rem">AK</div>
+                  <div><div style="font-size:var(--text-sm);color:var(--white);font-weight:600">Ranbir Singh</div><div style="font-size:var(--text-xs);color:var(--muted)">Vehicle Specialist · ⭐ 4.8</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="map-placeholder"><span style="font-size:1.8rem">📍</span><span>Live map will show here</span><span style="font-size:var(--text-xs)">Volunteer location tracking</span></div>
+          <div style="margin-top:1rem;display:flex;gap:.6rem">
+            <button class="btn btn-outline btn-sm" style="flex:1">💬 Chat</button>
+            <button class="btn btn-outline btn-sm" style="flex:1">📞 Call</button>
+            <button class="btn btn-sm" style="flex:1;background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)">Cancel</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel-card">
+            <div class="panel-card-title">Quick Actions</div>
+            <div style="display:flex;flex-direction:column;gap:.6rem">
+              <a href="request-service.html" class="btn btn-primary" style="width:100%;justify-content:flex-start;gap:.8rem"><span>👴</span> Request Elderly Help</a>
+              <a href="request-service.html" class="btn btn-primary" style="width:100%;justify-content:flex-start;gap:.8rem;background:var(--surface);border-color:var(--border-lit);color:var(--white)"><span>🔧</span> Request Vehicle Repair</a>
+              <a href="request-service.html" class="btn btn-primary" style="width:100%;justify-content:flex-start;gap:.8rem;background:var(--surface);border-color:var(--border-lit);color:var(--white)"><span>🚗</span> Request Driving Help</a>
+              <button onclick="openSOSModal()" class="btn btn-sos" style="width:100%;justify-content:flex-start;gap:.8rem;margin-top:.4rem">🚨 Send Emergency SOS</button>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-card-title">Recent Activity</div>
+            <div class="timeline">
+              <div class="timeline-item"><div class="timeline-dot amber"></div><div><div class="timeline-text"><strong>Volunteer assigned</strong> — Ajith Kumar accepted your request</div><div class="timeline-time">Today, 8:35 PM</div></div></div>
+              <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text"><strong>Request submitted</strong> — Vehicle Repair on NH66</div><div class="timeline-time">Today, 8:32 PM</div></div></div>
+              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Completed</strong> — Elderly Help with Meena Nair</div><div class="timeline-time">Yesterday, 9:12 PM</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request history table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div class="table-card-title">Request History</div>
+          <a href="#" class="btn btn-ghost btn-sm">View All</a>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>Service</th><th>Date</th><th>Volunteer</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>🔧 Vehicle Repair</td><td>Today 8:32 PM</td><td>Ajith Kumar</td><td><span class="badge badge-amber">In Progress</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td>👴 Elderly Help</td><td>Yesterday 9:00 PM</td><td>Meena Nair</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td>🚗 Driving Assist</td><td>Mar 14</td><td>Suresh Menon</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              <tr><td>🔧 Vehicle Repair</td><td>Mar 10</td><td>Anil Ambaani</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SOS Modal -->
+<div class="modal-overlay" id="sos-modal-overlay" onclick="closeSOSModal(event)" hidden>
+  <div class="modal" style="border-top-color:var(--sos)">
+    <button class="modal-close-btn" onclick="closeSOSModal(event)">✕</button>
+    <div class="sos-modal-icon">🚨</div><h2 class="sos-modal-title">Emergency SOS</h2>
+    <div class="sos-modal-warning">This will <strong>immediately alert all active volunteers and the admin</strong>.</div>
+    <div class="field"><label for="sos-name">Your Name</label><input type="text" id="sos-name" placeholder="Optional" value="Rajan Pillai"/></div>
+    <div class="field"><label for="sos-detail">Describe your emergency <span style="color:var(--sos-light)">*</span></label><input type="text" id="sos-detail" placeholder="Brief description"/></div>
+    <div class="field"><label for="sos-location">Location</label><div style="display:flex;gap:.6rem"><input type="text" id="sos-location" style="flex:1" readonly placeholder="Auto-detect or type"/><button id="sos-locate-btn" class="btn btn-outline btn-sm">📍 Locate</button></div></div>
+    <button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:.5rem">🚨 Send Emergency Alert</button>
+    <div class="sos-confirm-box" id="sos-confirm-box">✓ Alert Sent — Help is on the way.</div>
+  </div>
+</div>
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script><script src="js/sos.js"></script>
+</body>
+</html>

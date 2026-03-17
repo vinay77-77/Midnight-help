@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — Midnight Help</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/forms.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to sign in</a>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-text">Midnight <span>Help</span></div></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="register.html" class="nav-register">Register</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html">Home</a>
+  <a href="index.html#services">Services</a>
+  <a href="register.html" class="drawer-register">Register</a>
+</div>
+
+<main id="main-content">
+  <div class="auth-page">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-panel-left">
+      <div class="panel-glow"></div>
+      <a href="index.html" class="auth-brand-logo"><div class="logo-text">Midnight <span>Help</span></div></a>
+      <h1 class="auth-panel-heading">Welcome<br><span class="accent">Back.</span></h1>
+      <p class="auth-panel-desc">Sign in to request assistance, check active requests, or view your history.</p>
+
+      <!-- Service reminder cards -->
+      <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem">
+        <div style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+          <span style="font-size:1.6rem">👴</span>
+          <div>
+            <div style="font-family:var(--font-display);font-size:.85rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--white)">Elderly Help</div>
+            <div style="font-size:var(--text-xs);color:var(--muted)">Daily care &amp; welfare checks</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+          <span style="font-size:1.6rem">🔧</span>
+          <div>
+            <div style="font-family:var(--font-display);font-size:.85rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--white)">Vehicle Repairs</div>
+            <div style="font-size:var(--text-xs);color:var(--muted)">Roadside assistance</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+          <span style="font-size:1.6rem">🚗</span>
+          <div>
+            <div style="font-family:var(--font-display);font-size:.85rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--white)">Driving Assistance</div>
+            <div style="font-size:var(--text-xs);color:var(--muted)">Safe rides when needed</div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="openSOSModal()" class="btn btn-sos" style="width:100%">🚨 Emergency? Tap SOS</button>
+      <p style="font-size:var(--text-xs);color:var(--muted);margin-top:.5rem;text-align:center">You don't need to sign in to send an SOS</p>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-panel-right">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem" class="font-size-control">
+        <span>Text:</span>
+        <button class="font-size-btn" data-action="decrease">A−</button>
+        <button class="font-size-btn" data-action="reset">A</button>
+        <button class="font-size-btn" data-action="increase">A+</button>
+      </div>
+
+      <div class="form-card">
+        <h2 class="form-card-title">Sign In</h2>
+        <p class="form-card-sub">Enter your email and password to access your account.</p>
+
+        <form id="signin-form" novalidate>
+          <div class="field">
+            <label for="si-email">Email Address <span style="color:var(--sos-light)">*</span></label>
+            <input type="email" id="si-email" autocomplete="email" placeholder="you@example.com" inputmode="email"/>
+            <span class="field-error" id="err-si-email"></span>
+          </div>
+          <div class="field">
+            <label for="si-password">Password <span style="color:var(--sos-light)">*</span></label>
+            <div class="password-wrap">
+              <input type="password" id="si-password" autocomplete="current-password" placeholder="Your password"/>
+              <button type="button" class="toggle-password" data-target="si-password">👁️</button>
+            </div>
+            <span class="field-error" id="err-si-password"></span>
+          </div>
+          <div style="text-align:right;margin-bottom:1.3rem;margin-top:-.3rem">
+            <a href="#" onclick="alert('Password reset will connect to the backend.');return false;" style="font-size:var(--text-sm);color:var(--muted)">Forgot password?</a>
+          </div>
+          <button type="submit" id="signin-submit-btn" class="btn-form-submit">🔑 Sign In</button>
+          <div class="form-link-row" style="margin-top:1.2rem">
+            Don't have an account? <a href="register.html">Register here</a>
+          </div>
+        </form>
+
+        <div class="form-divider"><span>Or</span></div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);padding:1.3rem;text-align:center;border-radius:var(--radius)">
+          <p style="font-size:var(--text-sm);color:var(--text);margin-bottom:.9rem;line-height:1.55">
+            <strong style="color:var(--white)">Need immediate help?</strong><br/>
+            You can send an SOS without signing in.
+          </p>
+          <button onclick="openSOSModal()" class="btn btn-sos" style="width:100%">🚨 SOS Without Signing In</button>
+        </div>
+
+        <!-- Demo portal links for the project -->
+        <div style="margin-top:1.5rem;padding:1rem;background:var(--surface);border:1px solid var(--blue-border);border-radius:var(--radius)">
+          <div style="font-family:var(--font-display);font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-light);margin-bottom:.8rem">Demo Portals</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a href="user-dashboard.html" class="btn btn-outline btn-sm" style="justify-content:flex-start;gap:.6rem">👤 View User Dashboard</a>
+            <a href="volunteer-dashboard.html" class="btn btn-outline btn-sm" style="justify-content:flex-start;gap:.6rem">🤝 View Volunteer Dashboard</a>
+            <a href="admin-dashboard.html" class="btn btn-outline btn-sm" style="justify-content:flex-start;gap:.6rem">⚙️ View Admin Dashboard</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<button class="sos-float" onclick="openSOSModal()" aria-label="Emergency SOS">
+  <span class="sos-float-text">SOS</span><span class="sos-float-label">Emergency</span>
+</button>
+
+<div class="modal-overlay" id="sos-modal-overlay" onclick="closeSOSModal(event)" hidden>
+  <div class="modal" style="border-top-color:var(--sos)">
+    <button class="modal-close-btn" onclick="closeSOSModal(event)">✕</button>
+    <div class="sos-modal-icon">🚨</div>
+    <h2 class="sos-modal-title">Emergency SOS</h2>
+    <div class="sos-modal-warning">This will <strong>immediately alert all active volunteers and the admin</strong>.</div>
+    <div class="field"><label for="sos-name">Your Name</label><input type="text" id="sos-name" placeholder="Optional"/></div>
+    <div class="field"><label for="sos-detail">Describe your emergency <span style="color:var(--sos-light)">*</span></label><input type="text" id="sos-detail" placeholder="Brief description"/></div>
+    <div class="field">
+      <label for="sos-location">Location</label>
+      <div style="display:flex;gap:.6rem">
+        <input type="text" id="sos-location" style="flex:1" readonly placeholder="Auto-detect or type"/>
+        <button id="sos-locate-btn" class="btn btn-outline btn-sm">📍 Locate</button>
+      </div>
+    </div>
+    <button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:.5rem">🚨 Send Alert</button>
+    <div class="sos-confirm-box" id="sos-confirm-box">✓ Alert Sent — Help is on the way.</div>
+  </div>
+</div>
+
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script src="js/sos.js"></script>
+<script src="js/forms.js"></script>
+</body>
+</html>

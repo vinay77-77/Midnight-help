@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Volunteer Dashboard — Midnight Help</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <div class="dash-sidebar-logo">
+      <a href="index.html" class="nav-logo-text" style="font-size:1.2rem;padding-left:.6rem;border-left:3px solid var(--blue)">Midnight <span style="color:var(--blue-light)">Help</span></a>
+    </div>
+    <nav class="dash-sidebar-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="volunteer-dashboard.html" class="dash-nav-link active"><span class="nav-icon"></span> Dashboard</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Open Requests</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Active Case</a>
+      <div class="dash-nav-section">Records</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> My Cases</a>
+      
+      <div class="dash-nav-section">Account</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Profile</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Settings</a>
+      <a href="index.html" class="dash-nav-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon"></span> Sign Out</a>
+    </nav>
+    <div class="dash-sidebar-footer">
+      <div style="margin-bottom:.7rem;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:var(--text-xs);color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Availability</span>
+        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+          <input type="checkbox" id="avail-toggle" checked style="accent-color:var(--blue);width:16px;height:16px"/>
+          <span id="avail-label" style="font-size:var(--text-xs);color:var(--green)">Online</span>
+        </label>
+      </div>
+      <div class="dash-user-chip">
+        <div class="dash-user-avatar">AK</div>
+        <div><div class="dash-user-name">Sharukh Kumar</div><div class="dash-user-role">Volunteer</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="dash-topbar-left">
+        <h1 class="dash-topbar-title">Volunteer Dashboard</h1>
+        <span class="badge badge-green">● Online</span>
+      </div>
+      <div class="dash-topbar-right">
+        <div class="font-size-control">
+          <button class="font-size-btn" data-action="decrease">A−</button>
+          <button class="font-size-btn" data-action="reset">A</button>
+          <button class="font-size-btn" data-action="increase">A+</button>
+        </div>
+        <button class="btn btn-primary btn-sm" id="refresh-btn" onclick="showToast('Requests refreshed')">Refresh</button>
+      </div>
+    </header>
+
+    <div class="dash-content">
+
+      <div class="alert-banner ok"><span></span><span>You are currently <strong>online</strong> and visible to users in your area.</span></div>
+
+      <!-- Stats -->
+      <div class="dash-grid-4">
+        <div class="stat-card stat-card-accent">
+          <div class="stat-card-top"><div class="stat-card-label">Cases Handled</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">23</div>
+          <div class="stat-card-sub">Total cases completed</div>
+        </div>
+        <div class="stat-card stat-card-green">
+          <div class="stat-card-top"><div class="stat-card-label">Rating</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">4.8</div>
+          <div class="stat-card-sub">Average user rating</div>
+        </div>
+        <div class="stat-card stat-card-amber">
+          <div class="stat-card-top"><div class="stat-card-label">Active Case</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">1</div>
+          <div class="stat-card-sub">Currently handling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-card-label">This Week</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">3</div>
+          <div class="stat-card-sub">Cases this week</div>
+        </div>
+      </div>
+
+      <div class="dash-grid-2">
+
+        <!-- Active Case -->
+        <div>
+          <div class="panel-card">
+            <div class="panel-card-title">Active Case <span class="badge badge-amber">In Progress</span></div>
+            <div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">
+              <div class="request-card-icon vehicle">🔧</div>
+              <div class="request-card-body">
+                <div class="request-card-title">Vehicle Repair — Flat Tyre</div>
+                <div class="request-card-meta">📍 NH66 near Varkala · Accepted 8:35 PM</div>
+                <div style="margin-top:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem">
+                  <div style="font-size:var(--text-xs);color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">User</div>
+                  <div style="display:flex;align-items:center;gap:.7rem">
+                    <div class="dash-user-avatar" style="width:30px;height:30px;font-size:.75rem">RP</div>
+                    <div><div style="font-size:var(--text-sm);color:var(--white);font-weight:600">Rajan Pillai</div><div style="font-size:var(--text-xs);color:var(--muted)">📞 +91 98765 43210</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="map-placeholder"><span style="font-size:1.8rem">📍</span><span>User location map</span><span style="font-size:var(--text-xs)">Navigate to user</span></div>
+            <div style="margin-top:1rem;display:flex;gap:.6rem">
+              <button class="btn btn-primary btn-sm" style="flex:1">Call User</button>
+              <button class="btn btn-success btn-sm" style="flex:1" onclick="showToast('Case marked complete!')"> Mark Complete</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Open Requests -->
+        <div>
+          <div class="panel-card">
+            <div class="panel-card-title">Open Requests Nearby <span class="badge badge-blue">3 new</span></div>
+            <div style="display:flex;flex-direction:column;gap:.6rem">
+
+              <div class="request-card">
+                <div class="request-card-icon elderly">👴</div>
+                <div class="request-card-body">
+                  <div class="request-card-title">Elderly Help — Welfare Check</div>
+                  <div class="request-card-meta">📍 Kazhakuttom · 2.1 km away · 9:10 PM</div>
+                </div>
+                <div class="request-card-actions">
+                  <button class="btn btn-primary btn-sm" onclick="showToast('Request accepted!')">Accept</button>
+                </div>
+              </div>
+
+              <div class="request-card">
+                <div class="request-card-icon driving">🚗</div>
+                <div class="request-card-body">
+                  <div class="request-card-title">Driving — Hospital Visit</div>
+                  <div class="request-card-meta">📍 Pattom · 3.8 km away · 9:05 PM</div>
+                </div>
+                <div class="request-card-actions">
+                  <button class="btn btn-primary btn-sm" onclick="showToast('Request accepted!')">Accept</button>
+                </div>
+              </div>
+
+              <div class="request-card">
+                <div class="request-card-icon vehicle">🔧</div>
+                <div class="request-card-body">
+                  <div class="request-card-title">Vehicle — Battery Jump</div>
+                  <div class="request-card-meta">📍 Technopark · 5.2 km away · 8:58 PM</div>
+                </div>
+                <div class="request-card-actions">
+                  <button class="btn btn-outline btn-sm" onclick="showToast('Request accepted!')">Accept</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-title">Recent Cases</div>
+            <div class="timeline">
+              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Elderly Help</strong> — Welfare check for Mary George</div><div class="timeline-time">Yesterday, 10:20 PM · ⭐ 5.0</div></div></div>
+              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Vehicle Repair</strong> — Flat tyre on MC Road</div><div class="timeline-time">Mar 15, 11:05 PM · ⭐ 4.5</div></div></div>
+              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Driving Assist</strong> — Hospital drop near KIMS</div><div class="timeline-time">Mar 14, 9:30 PM · ⭐ 5.0</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script>
+document.getElementById('avail-toggle').addEventListener('change', function() {
+  const label = document.getElementById('avail-label');
+  label.textContent = this.checked ? 'Online' : 'Offline';
+  label.style.color = this.checked ? 'var(--green)' : 'var(--muted)';
+  showToast(this.checked ? 'You are now Online' : 'You are now Offline');
+});
+</script>
+</body>
+</html>

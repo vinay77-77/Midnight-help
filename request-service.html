@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Request Service — Midnight Help</title>
+<link rel="stylesheet" href="css/base.css"/>
+<style>
+.service-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:1.4rem;}
+.spc{background:var(--bg-surface);border:2px solid var(--border);border-radius:var(--radius-md);padding:1.8rem 1.2rem;text-align:center;cursor:pointer;transition:all var(--ease);}
+.spc:hover{border-color:var(--border-lit);background:var(--bg-elevated);}
+.spc.selected{border-color:var(--blue);background:var(--blue-dim);}
+.spc .si{font-size:2.2rem;margin-bottom:0.7rem;}
+.spc .sn{font-family:var(--font-display);font-size:var(--text-base);font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--white);}
+.spc .sd{font-size:var(--text-xs);color:var(--muted);margin-top:0.3rem;line-height:1.4;}
+.rs{display:none;}.rs.active{display:block;}
+.sb{display:flex;gap:0;margin-bottom:2rem;}
+.si2{flex:1;text-align:center;position:relative;}
+.si2::after{content:'';position:absolute;top:17px;left:50%;right:-50%;height:2px;background:var(--border-lit);z-index:0;}
+.si2:last-child::after{display:none;}
+.si2.done::after{background:var(--blue);}
+.sd2{width:34px;height:34px;border-radius:50%;background:var(--bg-surface);border:2px solid var(--border-lit);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:0.85rem;color:var(--muted);margin:0 auto 0.3rem;position:relative;z-index:1;transition:all 0.3s;}
+.si2.active .sd2{background:var(--blue);border-color:var(--blue);color:#fff;}
+.si2.done .sd2{background:var(--blue-dim);border-color:var(--blue);color:var(--blue-bright);}
+.sl{font-family:var(--font-display);font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.si2.active .sl{color:var(--blue-bright);}
+.fi{background:var(--bg-surface);border:1.5px solid var(--border-lit);color:var(--white);padding:0.85rem 1rem;font-family:var(--font-body);font-size:var(--text-base);width:100%;outline:none;border-radius:var(--radius-sm);min-height:52px;-webkit-appearance:none;appearance:none;transition:border-color var(--ease);}
+.fi:focus{border-color:var(--blue);}
+.fi::placeholder{color:#3a4f70;}
+@media(max-width:560px){.service-pick{grid-template-columns:1fr;}}
+</style>
+</head>
+<body style="background:var(--bg-base);min-height:100vh;padding:2rem 5vw 5rem;">
+
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;">
+  <a href="dashboard-user.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+  <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);padding-left:0.7rem;border-left:3px solid var(--blue);">Midnight <span style="color:var(--blue-bright);">Help</span></div>
+</div>
+
+<div style="max-width:620px;margin:0 auto;">
+  <div class="font-size-control" style="justify-content:flex-end;margin-bottom:1rem;">
+    <span>Text size:</span>
+    <button class="font-size-btn" data-action="decrease">A-</button>
+    <button class="font-size-btn" data-action="reset">A</button>
+    <button class="font-size-btn" data-action="increase">A+</button>
+  </div>
+
+  <h1 style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:900;text-transform:uppercase;letter-spacing:0.05em;color:var(--white);margin-bottom:0.3rem;">Request Help</h1>
+  <p style="font-size:var(--text-sm);color:var(--muted);margin-bottom:2rem;">A verified volunteer will be notified of your request.</p>
+
+  <div class="sb" id="step-bar">
+    <div class="si2 active" data-step="1"><div class="sd2">1</div><div class="sl">Service</div></div>
+    <div class="si2" data-step="2"><div class="sd2">2</div><div class="sl">Details</div></div>
+    <div class="si2" data-step="3"><div class="sd2">3</div><div class="sl">Location</div></div>
+    <div class="si2" data-step="4"><div class="sd2">4</div><div class="sl">Confirm</div></div>
+  </div>
+
+  <div class="rs active" id="rs1">
+    <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--white);margin-bottom:1.1rem;">What help do you need?</h2>
+    <div class="service-pick">
+      <div class="spc" onclick="pickSvc('elderly',this)"><div class="si">👴</div><div class="sn">Elderly Help</div><div class="sd">Daily tasks, errands, welfare, medical</div></div>
+      <div class="spc" onclick="pickSvc('vehicle',this)"><div class="si">🔧</div><div class="sn">Vehicle Repair</div><div class="sd">Tyre, battery, breakdown, roadside</div></div>
+      <div class="spc" onclick="pickSvc('driving',this)"><div class="si">🚗</div><div class="sn">Driving Help</div><div class="sd">Hospital, emergency, night ride</div></div>
+    </div>
+    <p id="svc-err" style="color:#f87171;font-size:var(--text-sm);display:none;margin-bottom:0.8rem;">Please select a service type.</p>
+    <button class="btn-form-submit" onclick="goStep(2)">Continue</button>
+  </div>
+
+  <div class="rs" id="rs2">
+    <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--white);margin-bottom:1.1rem;">Describe your situation</h2>
+    <div class="field"><label style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Brief Description *</label>
+      <textarea id="req-desc" class="fi" rows="3" placeholder="e.g. My father needs a ride to hospital tonight. He uses a walking stick." style="min-height:100px;resize:vertical;"></textarea>
+    </div>
+    <div class="field"><label style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Urgency Level</label>
+      <select id="req-urgency" class="fi"><option value="normal">Not immediate</option><option value="soon">Within the hour</option><option value="urgent">Right now — Urgent</option></select>
+    </div>
+    <div style="display:flex;gap:0.8rem;"><button class="btn btn-outline" onclick="goStep(1)" style="flex:1;">Back</button><button class="btn-form-submit" onclick="goStep(3)" style="flex:2;">Continue</button></div>
+  </div>
+
+  <div class="rs" id="rs3">
+    <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--white);margin-bottom:1.1rem;">Where are you?</h2>
+    <div class="field"><label style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Your Location</label>
+      <div style="display:flex;gap:0.6rem;"><input type="text" id="req-loc" class="fi" placeholder="Tap Detect or type here" style="flex:1;" /><button class="btn btn-outline" id="dloc-btn" onclick="doDetect()" style="min-height:52px;white-space:nowrap;padding:0 1rem;">📍 Detect</button></div>
+    </div>
+    <div class="field"><label style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Landmark (helps volunteers find you)</label>
+      <input type="text" id="req-lm" class="fi" placeholder="e.g. Near Varkala petrol bunk, NH66"/>
+    </div>
+    <div style="display:flex;gap:0.8rem;"><button class="btn btn-outline" onclick="goStep(2)" style="flex:1;">Back</button><button class="btn-form-submit" onclick="goStep(4)" style="flex:2;">Continue</button></div>
+  </div>
+
+  <div class="rs" id="rs4">
+    <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--white);margin-bottom:1.1rem;">Confirm your request</h2>
+    <div id="req-summary" style="background:var(--bg-surface);border:1px solid var(--border-lit);border-radius:var(--radius-md);padding:1.4rem;margin-bottom:1.2rem;"></div>
+    <div style="background:var(--bg-elevated);border:1px solid var(--border-lit);border-left:3px solid var(--blue);border-radius:var(--radius-md);padding:0.9rem 1.1rem;margin-bottom:1.2rem;font-size:var(--text-sm);color:var(--text);">Your location and details will be shared with nearby verified volunteers.</div>
+    <div style="display:flex;gap:0.8rem;"><button class="btn btn-outline" onclick="goStep(3)" style="flex:1;">Back</button><button class="btn-form-submit" id="submit-btn" onclick="doSubmit()" style="flex:2;">Submit Request</button></div>
+  </div>
+
+  <div class="rs" id="rs-done">
+    <div style="background:rgba(22,163,74,0.07);border:1px solid rgba(22,163,74,0.25);border-radius:var(--radius-md);padding:2.2rem;text-align:center;margin-top:1rem;">
+      <div style="font-size:2.8rem;margin-bottom:1rem;">✅</div>
+      <h3 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:#4ade80;margin-bottom:0.6rem;">Request Submitted!</h3>
+      <p style="font-size:var(--text-sm);color:var(--text);line-height:1.6;margin-bottom:1.4rem;">Your request has been sent to nearby volunteers. You will be notified when someone accepts. Track progress from your dashboard.</p>
+      <a href="dashboard-user.html" class="btn btn-primary" style="width:100%;justify-content:center;">Go to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<button class="sos-float" onclick="openSOSModal()" aria-label="Emergency SOS"><span class="sos-float-text">SOS</span><span class="sos-float-label">Emergency</span></button>
+<div class="modal-overlay" id="sos-modal-overlay" onclick="closeSOSModal(event)" hidden>
+  <div class="modal" style="border-top-color:var(--sos);"><button class="modal-close-btn" onclick="closeSOSModal(event)">x</button><div class="sos-modal-icon">🚨</div><h2 class="sos-modal-title">Emergency SOS</h2><div class="sos-modal-warning">Immediately alerts all volunteers and admin.</div><div class="field"><label>Describe emergency</label><input type="text" id="sos-detail" class="fi" placeholder="e.g. Need urgent help"/></div><button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:0.5rem;">Send Emergency Alert</button><div class="sos-confirm-box" id="sos-confirm-box">ALERT SENT</div></div>
+</div>
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script>
+<script>
+let svc=null;
+const svcLabels={elderly:'Elderly Help',vehicle:'Vehicle Repair',driving:'Driving Assistance'};
+const svcIcons={elderly:'👴',vehicle:'🔧',driving:'🚗'};
+function pickSvc(t,el){svc=t;document.querySelectorAll('.spc').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');document.getElementById('svc-err').style.display='none';}
+function goStep(n){
+  if(n===2&&!svc){document.getElementById('svc-err').style.display='block';return;}
+  if(n===3){const d=document.getElementById('req-desc');if(!d.value.trim()){d.style.borderColor='#f87171';showToast('Please describe your situation.');return;}d.style.borderColor='';}
+  if(n===4)buildSum();
+  const id=n==='done'?'rs-done':'rs'+n;
+  document.querySelectorAll('.rs').forEach(r=>r.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  document.querySelectorAll('.si2').forEach(s=>{const sn=parseInt(s.dataset.step);s.classList.toggle('active',sn===n);s.classList.toggle('done',sn<n);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function buildSum(){
+  const urg={normal:'Not immediate',soon:'Within the hour',urgent:'Urgent — Right now'};
+  const u=document.getElementById('req-urgency')?.value||'normal';
+  document.getElementById('req-summary').innerHTML=`
+    <div style="display:flex;align-items:center;gap:0.7rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);margin-bottom:0.8rem;"><span style="font-size:1.4rem;">${svcIcons[svc]}</span><strong style="color:var(--white);font-size:var(--text-base);">${svcLabels[svc]}</strong></div>
+    <div style="margin-bottom:0.6rem;"><span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Description</span><p style="color:var(--off-white);margin-top:0.2rem;font-size:var(--text-sm);">${document.getElementById('req-desc').value||'—'}</p></div>
+    <div style="margin-bottom:0.6rem;"><span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Urgency</span><p style="color:var(--off-white);margin-top:0.2rem;font-size:var(--text-sm);">${urg[u]}</p></div>
+    <div style="margin-bottom:0.6rem;"><span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Location</span><p style="color:var(--off-white);margin-top:0.2rem;font-size:var(--text-sm);">${document.getElementById('req-loc').value||'Not provided'}</p></div>
+    <div><span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;">Landmark</span><p style="color:var(--off-white);margin-top:0.2rem;font-size:var(--text-sm);">${document.getElementById('req-lm').value||'—'}</p></div>`;
+}
+function doDetect(){
+  const btn=document.getElementById('dloc-btn'),inp=document.getElementById('req-loc');
+  if(!navigator.geolocation){inp.value='Not available';return;}
+  btn.textContent='Detecting…';btn.disabled=true;
+  navigator.geolocation.getCurrentPosition(p=>{inp.value=`Lat: ${p.coords.latitude.toFixed(5)}, Lng: ${p.coords.longitude.toFixed(5)}`;btn.textContent='Detected';btn.style.color='#4ade80';},()=>{btn.textContent='Detect';btn.disabled=false;},{timeout:8000});
+}
+function doSubmit(){
+  const btn=document.getElementById('submit-btn');btn.disabled=true;btn.textContent='Submitting…';
+  setTimeout(()=>goStep('done'),1500);
+}
+</script>
+</body></html>

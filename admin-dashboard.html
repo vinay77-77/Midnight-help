@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Midnight Help</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <div class="dash-sidebar-logo">
+      <a href="index.html" class="nav-logo-text" style="font-size:1.2rem;padding-left:.6rem;border-left:3px solid var(--sos)">Midnight <span style="color:var(--blue-light)">Help</span></a>
+    </div>
+    <nav class="dash-sidebar-nav">
+      <div class="dash-nav-section">Overview</div>
+      <a href="admin-dashboard.html" class="dash-nav-link active"><span class="nav-icon"></span> Dashboard</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Analytics</a>
+      <div class="dash-nav-section">Management</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> All Requests</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Users</a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Volunteers</a>
+      <div class="dash-nav-section">Alerts</div>
+      <a href="#" class="dash-nav-link" style="color:var(--sos-light)"><span class="nav-icon">🚨</span> SOS Alerts <span class="badge badge-sos" style="margin-left:auto">2</span></a>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Notifications</a>
+      <div class="dash-nav-section">System</div>
+      <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Settings</a>
+      <a href="index.html" class="dash-nav-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon"></span> Sign Out</a>
+    </nav>
+    <div class="dash-sidebar-footer">
+      <div class="dash-user-chip">
+        <div class="dash-user-avatar" style="background:rgba(192,57,43,.2);border-color:var(--sos-border);color:var(--sos-light)">AD</div>
+        <div><div class="dash-user-name">Admin</div><div class="dash-user-role" style="color:var(--sos-light)">System Admin</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <div class="dash-topbar-left">
+        <h1 class="dash-topbar-title">Admin Dashboard</h1>
+      </div>
+      <div class="dash-topbar-right">
+        <div class="font-size-control">
+          <button class="font-size-btn" data-action="decrease">A−</button>
+          <button class="font-size-btn" data-action="reset">A</button>
+          <button class="font-size-btn" data-action="increase">A+</button>
+        </div>
+        <span class="badge badge-sos">🚨 2 Active SOS</span>
+      </div>
+    </header>
+
+    <div class="dash-content">
+
+      <!-- SOS Alert banner -->
+      <div class="alert-banner sos" style="cursor:pointer" onclick="showToast('Opening SOS management...')">
+        <span>🚨</span>
+        <span><strong>2 active SOS alerts</strong> require immediate attention — Priya at Kazhakuttom &amp; Suresh at Technopark</span>
+        <button class="btn btn-sos btn-sm" style="margin-left:auto;flex-shrink:0">View Alerts</button>
+      </div>
+
+      <!-- Overview stats -->
+      <div class="dash-grid-4">
+        <div class="stat-card stat-card-accent">
+          <div class="stat-card-top"><div class="stat-card-label">Total Users</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">142</div>
+          <div class="stat-card-sub">Registered accounts</div>
+        </div>
+        <div class="stat-card stat-card-green">
+          <div class="stat-card-top"><div class="stat-card-label">Volunteers</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">18</div>
+          <div class="stat-card-sub">12 currently online</div>
+        </div>
+        <div class="stat-card stat-card-amber">
+          <div class="stat-card-top"><div class="stat-card-label">Active Requests</div><div class="stat-card-icon"></div></div>
+          <div class="stat-card-val">7</div>
+          <div class="stat-card-sub">In progress now</div>
+        </div>
+        <div class="stat-card stat-card-sos">
+          <div class="stat-card-top"><div class="stat-card-label">SOS Alerts</div><div class="stat-card-icon">🚨</div></div>
+          <div class="stat-card-val">2</div>
+          <div class="stat-card-sub">Needs attention</div>
+        </div>
+      </div>
+
+      <!-- More stats -->
+      <div class="dash-grid-3" style="margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Total Requests Today</div><div class="stat-card-icon"></div></div><div class="stat-card-val">24</div><div class="stat-card-sub">19 resolved</div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Pending Verification</div><div class="stat-card-icon"></div></div><div class="stat-card-val">3</div><div class="stat-card-sub">Volunteer applications</div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">System Status</div><div class="stat-card-icon"></div></div><div class="stat-card-val" style="font-size:var(--text-xl);color:var(--green)">Online</div><div class="stat-card-sub">All systems operational</div></div>
+      </div>
+
+      <div class="dash-grid-2">
+
+        <!-- All active requests -->
+        <div class="table-card">
+          <div class="table-card-header">
+            <div class="table-card-title">Active Requests</div>
+            <a href="#" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead><tr><th>User</th><th>Service</th><th>Volunteer</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Rajan Pillai</td><td>🔧 Vehicle Repair</td><td>Ajith Kumar</td><td><span class="badge badge-amber">In Progress</span></td></tr>
+                <tr><td>Leela Devi</td><td>👴 Elderly Help</td><td>Meena Nair</td><td><span class="badge badge-blue">Matched</span></td></tr>
+                <tr><td>Thomas KJ</td><td>🚗 Driving</td><td><span style="color:var(--muted)">Unassigned</span></td><td><span class="badge badge-amber">Waiting</span></td></tr>
+                <tr><td>Priya S</td><td>🚨 SOS</td><td>Suresh Menon</td><td><span class="badge badge-sos">SOS Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Volunteer status -->
+        <div class="table-card">
+          <div class="table-card-header">
+            <div class="table-card-title">Volunteer Status</div>
+            <button class="btn btn-ghost btn-sm">Manage</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Skill</th><th>Status</th><th>Cases</th></tr></thead>
+              <tbody>
+                <tr><td>Ajith Kumar</td><td>Vehicle</td><td><span class="badge badge-amber">Active</span></td><td>23</td></tr>
+                <tr><td>Meena Nair</td><td>Elderly</td><td><span class="badge badge-amber">Active</span></td><td>31</td></tr>
+                <tr><td>Suresh Menon</td><td>Driving</td><td><span class="badge badge-sos">SOS</span></td><td>18</td></tr>
+                <tr><td>Anil Thomas</td><td>Vehicle</td><td><span class="badge badge-green">Online</span></td><td>14</td></tr>
+                <tr><td>Rekha V</td><td>Elderly</td><td><span class="badge badge-muted">Offline</span></td><td>9</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pending volunteer verification -->
+      <div class="panel-card">
+        <div class="panel-card-title">Pending Volunteer Verification <span class="badge badge-amber">3 pending</span></div>
+        <div style="display:flex;flex-direction:column;gap:.65rem">
+          <div class="request-card">
+            <div class="dash-user-avatar" style="width:40px;height:40px;font-size:.9rem;flex-shrink:0">JK</div>
+            <div class="request-card-body">
+              <div class="request-card-title">Jishnu K</div>
+              <div class="request-card-meta">Applied for Vehicle Specialist · Submitted Mar 16</div>
+            </div>
+            <div class="request-card-actions">
+              <button class="btn btn-success btn-sm" onclick="showToast('Volunteer approved!')">✓ Approve</button>
+              <button class="btn btn-sm" style="background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)" onclick="showToast('Volunteer rejected.')">✗ Reject</button>
+            </div>
+          </div>
+          <div class="request-card">
+            <div class="dash-user-avatar" style="width:40px;height:40px;font-size:.9rem;flex-shrink:0">NS</div>
+            <div class="request-card-body">
+              <div class="request-card-title">Nithya S</div>
+              <div class="request-card-meta">Applied for Elderly Care · Submitted Mar 15</div>
+            </div>
+            <div class="request-card-actions">
+              <button class="btn btn-success btn-sm" onclick="showToast('Volunteer approved!')">✓ Approve</button>
+              <button class="btn btn-sm" style="background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)" onclick="showToast('Volunteer rejected.')">✗ Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="panel-card">
+        <div class="panel-card-title">System Activity Log</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot sos"></div><div><div class="timeline-text"><strong>SOS Alert</strong> — Priya S triggered emergency at Kazhakuttom</div><div class="timeline-time">Today, 9:14 PM</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot amber"></div><div><div class="timeline-text"><strong>New Request</strong> — Driving assist requested by Thomas KJ (unassigned)</div><div class="timeline-time">Today, 9:02 PM</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text"><strong>New User</strong> — Leela Devi registered</div><div class="timeline-time">Today, 8:55 PM</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Case Completed</strong> — Ajith Kumar resolved vehicle repair for Suresh CV</div><div class="timeline-time">Today, 8:40 PM</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text"><strong>Volunteer Online</strong> — Anil Thomas came online</div><div class="timeline-time">Today, 8:30 PM</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="site-toast" class="toast"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
