@@ -1,239 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NightReach — Community Emergency Assistance</title>
-
-<style>
-
-/* ---------- RESET ---------- */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-}
-
-body{
-background:#0f172a;
-color:#e5e7eb;
-line-height:1.6;
-}
-
-/* ---------- NAVBAR ---------- */
-
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:22px 60px;
-border-bottom:1px solid #1f2937;
-}
-
-.logo{
-font-size:20px;
-font-weight:600;
-letter-spacing:0.3px;
-color:#f9fafb;
-}
-
-.nav-links a{
-margin-left:26px;
-text-decoration:none;
-color:#9ca3af;
-font-size:14px;
-transition:color .2s;
-}
-
-.nav-links a:hover{
-color:#ffffff;
-}
-
-/* ---------- HERO SECTION ---------- */
-
-.hero{
-max-width:820px;
-margin:auto;
-text-align:center;
-padding:120px 20px 100px;
-}
-
-.hero h1{
-font-size:40px;
-font-weight:600;
-margin-bottom:20px;
-letter-spacing:-0.5px;
-color:#ffffff;
-}
-
-.hero p{
-font-size:17px;
-color:#9ca3af;
-margin-bottom:40px;
-}
-
-/* ---------- BUTTONS ---------- */
-
-.hero-buttons{
-display:flex;
-justify-content:center;
-gap:16px;
-flex-wrap:wrap;
-}
-
-.btn-primary{
-background:#2563eb;
-color:white;
-padding:12px 28px;
-border-radius:6px;
-text-decoration:none;
-font-size:14px;
-font-weight:500;
-transition:background .2s;
-}
-
-.btn-primary:hover{
-background:#1d4ed8;
-}
-
-.btn-secondary{
-border:1px solid #374151;
-color:#e5e7eb;
-padding:12px 28px;
-border-radius:6px;
-text-decoration:none;
-font-size:14px;
-transition:background .2s;
-}
-
-.btn-secondary:hover{
-background:#1f2937;
-}
-
-/* ---------- FEATURES ---------- */
-
-.features{
-max-width:1100px;
-margin:auto;
-padding:60px 40px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:28px;
-}
-
-.feature-card{
-background:#111827;
-padding:28px;
-border-radius:8px;
-border:1px solid #1f2937;
-}
-
-.feature-card h3{
-font-size:17px;
-margin-bottom:10px;
-color:#f9fafb;
-}
-
-.feature-card p{
-font-size:14px;
-color:#9ca3af;
-}
-
-/* ---------- FOOTER ---------- */
-
-.footer{
-margin-top:60px;
-padding:30px;
-text-align:center;
-border-top:1px solid #1f2937;
-color:#6b7280;
-font-size:14px;
-}
-
-</style>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Midnight Help — Community Assistance Network</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/nav.css"/>
+  <link rel="stylesheet" href="css/hero.css"/>
+  <link rel="stylesheet" href="css/sections.css"/>
 </head>
-
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<div class="logo">NightReach</div>
-
-<div class="nav-links">
-<a href="#">Home</a>
-<a href="login.html">Login</a>
-<a href="register.html">Register</a>
+<nav class="site-nav" role="navigation">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-text">Midnight <span>Help</span></div></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="register.html" class="nav-register">Register</a></li>
+    <li><a href="signin.html" class="nav-signin">Sign In</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="#services">Services</a>
+  <a href="#how">How It Works</a>
+  <a href="#features">Features</a>
+  <a href="register.html" class="drawer-register">Register</a>
+  <a href="signin.html">Sign In</a>
+  <a href="#" onclick="openSOSModal();return false;" style="color:var(--sos-light)">🚨 Emergency SOS</a>
 </div>
 
-</div>
+<main id="main-content">
 
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-glow"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Night-time Community Assistance</div>
+      <h1 class="hero-title">Need Help?<span class="line-blue">We've Got<br>You.</span></h1>
+      <p class="hero-tagline">One Tap. Real People. Real Fast.</p>
+      <p class="hero-sub"><strong>Midnight Help</strong> connects you to verified community volunteers for elderly care, vehicle repairs, and safe driving — especially during the night when you need it most.</p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-primary" style="font-size:1.15rem;padding:1rem 2.2rem;">Request Help Now</a>
+        <a href="signin.html" class="btn btn-outline">Sign In</a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item"><span class="dot"></span>Active Volunteers</div>
+        <div class="hero-trust-item"><span class="dot"></span>Night-time Coverage</div>
+        <div class="hero-trust-item"><span class="dot"></span>Admin Verified</div>
+      </div>
+    </div>
+  </section>
 
-<!-- HERO -->
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <div class="section-eyebrow">What We Offer</div>
+    <h2 class="section-title">Built for the <span class="accent">Community</span></h2>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-icon-wrap">👴</div>
+        <h3 class="service-name">Elderly Help</h3>
+        <p class="service-desc">Support for senior citizens needing assistance with daily tasks, errands, medical appointments, or welfare checks at night.</p>
+        <div class="service-tag">● Night-time Coverage</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon-wrap">🔧</div>
+        <h3 class="service-name">Vehicle Repairs</h3>
+        <p class="service-desc">Stranded with a flat tyre, dead battery, or breakdown? Skilled volunteers come to you for roadside assistance.</p>
+        <div class="service-tag">● GPS Guided Response</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon-wrap">🚗</div>
+        <h3 class="service-name">Driving Assistance</h3>
+        <p class="service-desc">Safe rides for those who cannot drive — hospital visits, late-night emergencies, or any time you need a trusted driver.</p>
+        <div class="service-tag">● Vetted Drivers Only</div>
+      </div>
+    </div>
+  </section>
 
-<section class="hero">
+  <!-- STATS -->
+  <div class="stats-strip reveal">
+    <div class="stat"><div class="stat-num">Night</div><div class="stat-label">Time Focus</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Verified Volunteers</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Core Services</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Tap to Request</div></div>
+  </div>
 
-<h1>Community Emergency Assistance</h1>
+  <!-- HOW IT WORKS -->
+  <section id="how" class="section">
+    <div class="section-eyebrow">Simple Process</div>
+    <h2 class="section-title">How It <span class="accent">Works</span></h2>
+    <div class="steps-wrapper reveal">
+      <div class="steps-grid">
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Register</h3>
+          <p class="step-desc">Create your account in under two minutes. Just your name, email, and phone — that's all.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Submit Request</h3>
+          <p class="step-desc">Choose the type of help you need. Your location is shared automatically with nearby volunteers.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Get Matched</h3>
+          <p class="step-desc">A verified volunteer accepts your case. See their name and chat directly in real time.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-number">04</div>
+          <h3 class="step-title">Help Arrives</h3>
+          <p class="step-desc">Track your volunteer as they approach. Rate your experience when the help is complete.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<p>
-NightReach connects people who need late-night help with nearby verified volunteers.
-Submit a request, notify responders, and track assistance in real time.
-</p>
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="section-eyebrow">Platform Features</div>
+    <h2 class="section-title">Everything You <span class="accent">Need</span></h2>
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <span class="feature-icon">🚨</span>
+        <h3 class="feature-name">Instant SOS</h3>
+        <p class="feature-desc">One tap alerts every active volunteer and the admin simultaneously. For when you need help right now.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💬</span>
+        <h3 class="feature-name">Live Chat</h3>
+        <p class="feature-desc">Real-time messaging between you and your volunteer so you always know what's happening.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📍</span>
+        <h3 class="feature-name">GPS Location</h3>
+        <p class="feature-desc">Your precise location is shared automatically so volunteers can reach you without confusion.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📋</span>
+        <h3 class="feature-name">Request History</h3>
+        <p class="feature-desc">Full log of all your past requests, statuses, and volunteer details — clear and easy to read.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🛡️</span>
+        <h3 class="feature-name">Verified Volunteers</h3>
+        <p class="feature-desc">Every volunteer is background-checked and personally approved by the admin before joining.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🔠</span>
+        <h3 class="feature-name">Large Text Mode</h3>
+        <p class="feature-desc">Tap the A+ button to make all text larger — designed with elderly users in mind.</p>
+      </div>
+    </div>
+  </section>
 
-<div class="hero-buttons">
+  <!-- VOLUNTEER BANNER -->
+  <div class="volunteer-banner reveal">
+    <div>
+      <h3>Want to Volunteer?</h3>
+      <p>Volunteers are added by the admin after verification. Reach out to apply and make a difference in your community.</p>
+    </div>
+    <a href="mailto:admin@midnighthelp.org" class="btn btn-outline">Contact Admin</a>
+  </div>
 
-<a href="user/request_help.html" class="btn-primary">
-Request Help
-</a>
-
-<a href="register.html" class="btn-secondary">
-Become a Responder
-</a>
-
-</div>
-
-</section>
-
-
-<!-- FEATURES -->
-
-<section class="features">
-
-<div class="feature-card">
-<h3>Submit Requests Quickly</h3>
-<p>
-Users can report emergency situations and provide their location
-within seconds.
-</p>
-</div>
-
-<div class="feature-card">
-<h3>Nearby Volunteer Response</h3>
-<p>
-Verified responders in the system can accept requests and provide
-timely assistance.
-</p>
-</div>
-
-<div class="feature-card">
-<h3>Track Request Status</h3>
-<p>
-Users can monitor request progress until the issue has been resolved.
-</p>
-</div>
-
-</section>
-
+</main>
 
 <!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo-text" style="font-size:1.3rem;">Midnight <span>Help</span></div>
+      <p>A community volunteer network helping those who need it most during the night.</p>
+      <button class="footer-emergency" onclick="openSOSModal()">🚨 Emergency SOS</button>
+      <div class="footer-a11y" style="margin-top:1rem;">
+        <span>Text:</span>
+        <button class="font-size-btn" data-action="decrease">A−</button>
+        <button class="font-size-btn" data-action="reset">A</button>
+        <button class="font-size-btn" data-action="increase">A+</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Elderly Help</a></li>
+        <li><a href="#services">Vehicle Repairs</a></li>
+        <li><a href="#services">Driving Assistance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <ul>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="signin.html">Sign In</a></li>
+        <li><a href="#how">How It Works</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="mailto:admin@midnighthelp.org">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Midnight Help. All rights reserved.</p>
+    <p>Made with <span>♥</span> for the community</p>
+  </div>
+</footer>
 
-<div class="footer">
-© 2026 NightReach — Community Emergency Assistance Platform
+<!-- SOS MODAL -->
+<div class="modal-overlay" id="sos-modal-overlay" role="dialog" aria-modal="true" onclick="closeSOSModal(event)" hidden>
+  <div class="modal" style="border-top-color:var(--sos)">
+    <button class="modal-close-btn" onclick="closeSOSModal(event)">✕</button>
+    <div class="sos-modal-icon">🚨</div>
+    <h2 class="sos-modal-title">Emergency SOS</h2>
+    <div class="sos-modal-warning">This will <strong>immediately alert all active volunteers and the admin</strong>. Use only for genuine emergencies.</div>
+    <div class="field"><label for="sos-name">Your Name <span style="color:var(--muted);font-size:.72rem">(optional)</span></label><input type="text" id="sos-name" placeholder="e.g. Rajan Pillai"/></div>
+    <div class="field"><label for="sos-detail">Describe your emergency <span style="color:var(--sos-light)">*</span></label><input type="text" id="sos-detail" placeholder="e.g. Tyre burst on NH66 near Varkala"/></div>
+    <div class="field">
+      <label for="sos-location">Your Location</label>
+      <div style="display:flex;gap:.6rem">
+        <input type="text" id="sos-location" placeholder="Auto-detect or type here" style="flex:1" readonly/>
+        <button id="sos-locate-btn" class="btn btn-outline btn-sm" style="white-space:nowrap">📍 Locate Me</button>
+      </div>
+    </div>
+    <button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:.5rem;font-size:1.05rem;padding:1rem">🚨 Send Emergency Alert</button>
+    <div class="sos-confirm-box" id="sos-confirm-box">✓ Alert Sent — Volunteers &amp; admin notified. Help is on the way.</div>
+  </div>
 </div>
 
+<div id="site-toast" class="toast" role="status" aria-live="polite"></div>
+
+<button class="sos-float" onclick="openSOSModal()" aria-label="Emergency SOS" title="Emergency SOS">
+  <span class="sos-float-text">SOS</span>
+  <span class="sos-float-label">Emergency</span>
+  <div class="sos-tooltip">Send Emergency Alert</div>
+</button>
+
+<script src="js/main.js"></script>
+<script src="js/sos.js"></script>
 </body>
 </html>
-
