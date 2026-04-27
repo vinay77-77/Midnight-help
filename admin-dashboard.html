@@ -167,6 +167,85 @@
         </div>
       </div>
 
+      <!-- Create volunteer -->
+      <div class="panel-card">
+        <div class="panel-card-title">Create Volunteer</div>
+        <form id="create-volunteer-form" style="display:flex;flex-direction:column;gap:.85rem" novalidate>
+          <div class="field">
+            <label for="cv-name" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Full Name *</label>
+            <input id="cv-name" type="text" placeholder="e.g. Ajith Kumar" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;color:var(--white);outline:none" />
+          </div>
+          <div class="field">
+            <label for="cv-phone" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Phone *</label>
+            <input id="cv-phone" type="tel" placeholder="+91 98765 43210" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;color:var(--white);outline:none" />
+          </div>
+
+          <div class="field">
+            <div style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);margin-bottom:.35rem">Services</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                <input type="checkbox" value="elderly" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
+                <span style="color:var(--text);font-size:var(--text-sm)">👴 Elderly</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                <input type="checkbox" value="vehicle" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
+                <span style="color:var(--text);font-size:var(--text-sm)">🔧 Vehicle</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                <input type="checkbox" value="driving" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
+                <span style="color:var(--text);font-size:var(--text-sm)">🚗 Driving</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+                <input type="checkbox" value="sos" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
+                <span style="color:var(--text);font-size:var(--text-sm)">🚨 SOS</span>
+              </label>
+            </div>
+            <div style="font-size:var(--text-xs);color:var(--muted);margin-top:.35rem">Leave blank to add volunteer without service tags for now.</div>
+          </div>
+
+          <label style="display:flex;align-items:center;gap:.55rem;cursor:pointer">
+            <input id="cv-verified" type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px" />
+            <span style="color:var(--text);font-size:var(--text-sm)">Verified</span>
+          </label>
+
+          <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+            <button type="submit" class="btn btn-success btn-sm" id="cv-submit-btn">+ Create Volunteer</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="cv-clear-btn">Clear</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Volunteers list -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div class="table-card-title">Volunteers</div>
+          <div style="display:flex;gap:.6rem;align-items:center">
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;color:var(--muted);font-size:var(--text-sm)">
+              <input id="vol-only-verified" type="checkbox" style="accent-color:var(--blue);width:16px;height:16px" />
+              Only verified
+            </label>
+            <button class="btn btn-ghost btn-sm" id="vol-refresh-btn" type="button">Refresh</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Services</th>
+                <th>Status</th>
+                <th>Verified</th>
+              </tr>
+            </thead>
+            <tbody id="vol-table-body">
+              <tr><td colspan="6" style="color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Recent activity -->
       <div class="panel-card">
         <div class="panel-card-title">System Activity Log</div>
@@ -185,5 +264,141 @@
 
 <div id="site-toast" class="toast"></div>
 <script src="js/main.js"></script>
+<script>
+function basePath() {
+  const seg = (window.location.pathname || '/').split('/').filter(Boolean)[0] || '';
+  return '/' + seg + '/';
+}
+
+function getServices() {
+  return Array.from(document.querySelectorAll('.cv-service'))
+    .filter((el) => el.checked)
+    .map((el) => el.value);
+}
+
+function clearCreateVolunteerForm() {
+  const n = document.getElementById('cv-name');
+  const p = document.getElementById('cv-phone');
+  if (n) n.value = '';
+  if (p) p.value = '';
+  document.querySelectorAll('.cv-service').forEach((el) => { el.checked = false; });
+  const v = document.getElementById('cv-verified');
+  if (v) v.checked = true;
+}
+
+function badge(text, kind) {
+  const cls = kind ? ('badge badge-' + kind) : 'badge';
+  return '<span class="' + cls + '">' + text + '</span>';
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function renderVolunteers(rows) {
+  const body = document.getElementById('vol-table-body');
+  if (!body) return;
+  if (!rows || rows.length === 0) {
+    body.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">No volunteers found.</td></tr>';
+    return;
+  }
+  body.innerHTML = rows.map((v) => {
+    const services = (v.services || []).map(escapeHtml).join(', ') || '—';
+    const statusKind = v.availabilityStatus === 'available' ? 'green'
+      : v.availabilityStatus === 'busy' ? 'amber'
+      : 'muted';
+    const statusText = v.availabilityStatus === 'available' ? 'Available'
+      : v.availabilityStatus === 'busy' ? 'Busy'
+      : 'Offline';
+    const verifiedText = v.verified ? badge('Verified', 'green') : badge('Unverified', 'muted');
+    return (
+      '<tr>' +
+        '<td>' + escapeHtml(v.responderId) + '</td>' +
+        '<td>' + escapeHtml(v.name) + '</td>' +
+        '<td>' + escapeHtml(v.phone) + '</td>' +
+        '<td>' + services + '</td>' +
+        '<td>' + badge(statusText, statusKind) + '</td>' +
+        '<td>' + verifiedText + '</td>' +
+      '</tr>'
+    );
+  }).join('');
+}
+
+function fetchVolunteers() {
+  const onlyVerified = document.getElementById('vol-only-verified')?.checked ? 1 : -1;
+  const btn = document.getElementById('vol-refresh-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Refreshing…'; }
+
+  const qs = new URLSearchParams();
+  if (onlyVerified === 1) qs.set('verified', '1');
+
+  fetch(basePath() + 'api/admin_list_volunteers.php' + (qs.toString() ? ('?' + qs.toString()) : ''), {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        renderVolunteers(json.volunteers || []);
+        return;
+      }
+      renderVolunteers([]);
+      showToast(json.error || 'Failed to load volunteers');
+    })
+    .catch(() => {
+      renderVolunteers([]);
+      showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = 'Refresh'; }
+    });
+}
+
+document.getElementById('cv-clear-btn')?.addEventListener('click', clearCreateVolunteerForm);
+document.getElementById('vol-refresh-btn')?.addEventListener('click', fetchVolunteers);
+document.getElementById('vol-only-verified')?.addEventListener('change', fetchVolunteers);
+
+document.getElementById('create-volunteer-form')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name = (document.getElementById('cv-name')?.value || '').trim();
+  const phone = (document.getElementById('cv-phone')?.value || '').trim();
+  const verified = document.getElementById('cv-verified')?.checked ? 1 : 0;
+  const services = getServices();
+
+  if (name.length < 2) { showToast('Name is required'); return; }
+  if (phone.replace(/[\s\-()]/g, '').length < 7) { showToast('Valid phone required'); return; }
+
+  const btn = document.getElementById('cv-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
+
+  fetch(basePath() + 'api/admin_create_volunteer.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, verified, services }),
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        showToast('Volunteer created (ID: ' + json.responderId + ')');
+        clearCreateVolunteerForm();
+        fetchVolunteers();
+        return;
+      }
+      showToast(json.error || 'Failed to create volunteer');
+    })
+    .catch(() => showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'))
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = '+ Create Volunteer'; }
+    });
+});
+
+fetchVolunteers();
+</script>
 </body>
 </html>

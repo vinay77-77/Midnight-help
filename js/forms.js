@@ -9,6 +9,11 @@ function clearErr(id) { const e = document.getElementById('err-' + id); if (e) e
 function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 function isPhone(v) { return v.replace(/[\s\-()]/g,'').length >= 7; }
 function strength(pw) { let s = 0; if (pw.length>=8) s++; if (pw.length>=12) s++; if (/[A-Z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++; return s; }
+function basePath() {
+  // Works for both /Midnight-help/... and /midnight-help/...
+  const seg = (window.location.pathname || '/').split('/').filter(Boolean)[0] || '';
+  return '/' + seg + '/';
+}
 
 function initRegister() {
   let step = 1;
@@ -43,11 +48,33 @@ function initRegister() {
     if (!ok) return;
     const btn = document.getElementById('register-submit-btn');
     btn.disabled = true; btn.textContent = 'Creating account…';
-    setTimeout(() => {
-      document.getElementById('register-form').style.display = 'none';
-      document.querySelector('.form-steps-indicator').style.display = 'none';
-      document.getElementById('register-success').classList.add('visible');
-    }, 1500);
+    fetch(basePath() + 'api/register.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: getVal('fname'),
+        lastName: getVal('lname'),
+        email: getVal('email'),
+        phone: getVal('phone'),
+        dob: getVal('dob'),
+        password: getVal('password'),
+      }),
+    })
+      .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })))
+      .then(({ status, json }) => {
+        if (status >= 200 && status < 300 && json.ok) {
+          document.getElementById('register-form').style.display = 'none';
+          document.querySelector('.form-steps-indicator').style.display = 'none';
+          document.getElementById('register-success').classList.add('visible');
+          return;
+        }
+        showToast(json.error || 'Registration failed');
+        btn.disabled = false; btn.textContent = '✅ Create Account';
+      })
+      .catch(() => {
+        showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+        btn.disabled = false; btn.textContent = '✅ Create Account';
+      });
   });
   function showStep(n) {
     step = n;
@@ -68,6 +95,41 @@ function initSignin() {
     if (!ok) return;
     const btn = document.getElementById('signin-submit-btn');
     btn.disabled = true; btn.textContent = 'Signing in…';
-    setTimeout(() => { showToast('Sign-in will connect to the backend.'); btn.disabled = false; btn.textContent = '🔑 Sign In'; }, 1400);
+    const payload = { email: getVal('si-email'), password: getVal('si-password') };
+
+    // Auto-detect: try admin first, then fall back to user.
+    fetch(basePath() + 'api/admin_login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })))
+      .then(({ status, json }) => {
+        if (status >= 200 && status < 300 && json.ok) {
+          window.location.href = basePath() + 'admin-dashboard.html';
+          return null;
+        }
+        // If admin login fails, try user login.
+        return fetch(basePath() + 'api/login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+          .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })));
+      })
+      .then((userResult) => {
+        if (!userResult) return; // already redirected as admin
+        const { status, json } = userResult;
+        if (status >= 200 && status < 300 && json.ok) {
+          window.location.href = basePath() + 'user-dashboard.html';
+          return;
+        }
+        showToast(json.error || 'Invalid email or password');
+        btn.disabled = false; btn.textContent = '🔑 Sign In';
+      })
+      .catch(() => {
+        showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+        btn.disabled = false; btn.textContent = '🔑 Sign In';
+      });
   });
 }

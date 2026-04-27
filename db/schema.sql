@@ -9,7 +9,7 @@ SET time_zone = '+00:00';
 -- Create a dedicated database (optional). If you already have one, comment this out.
 CREATE DATABASE IF NOT EXISTS midnight_help
   DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_0900_ai_ci;
+  DEFAULT COLLATE utf8mb4_general_ci;
 USE midnight_help;
 
 -- ---------- Core Accounts ----------
