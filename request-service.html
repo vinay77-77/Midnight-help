@@ -32,7 +32,7 @@
 <body style="background:var(--bg-base);min-height:100vh;padding:2rem 5vw 5rem;">
 
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;">
-  <a href="dashboard-user.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+  <a href="user-dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
   <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);padding-left:0.7rem;border-left:3px solid var(--blue);">Midnight <span style="color:var(--blue-bright);">Help</span></div>
 </div>
 
@@ -99,7 +99,7 @@
       <div style="font-size:2.8rem;margin-bottom:1rem;">✅</div>
       <h3 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:#4ade80;margin-bottom:0.6rem;">Request Submitted!</h3>
       <p style="font-size:var(--text-sm);color:var(--text);line-height:1.6;margin-bottom:1.4rem;">Your request has been sent to nearby volunteers. You will be notified when someone accepts. Track progress from your dashboard.</p>
-      <a href="dashboard-user.html" class="btn btn-primary" style="width:100%;justify-content:center;">Go to Dashboard</a>
+      <a href="user-dashboard.html" class="btn btn-primary" style="width:100%;justify-content:center;">Go to Dashboard</a>
     </div>
   </div>
 </div>
@@ -109,11 +109,30 @@
   <div class="modal" style="border-top-color:var(--sos);"><button class="modal-close-btn" onclick="closeSOSModal(event)">x</button><div class="sos-modal-icon">🚨</div><h2 class="sos-modal-title">Emergency SOS</h2><div class="sos-modal-warning">Immediately alerts all volunteers and admin.</div><div class="field"><label>Describe emergency</label><input type="text" id="sos-detail" class="fi" placeholder="e.g. Need urgent help"/></div><button class="btn btn-sos" id="sos-send-btn" onclick="sendSOS()" style="width:100%;margin-top:0.5rem;">Send Emergency Alert</button><div class="sos-confirm-box" id="sos-confirm-box">ALERT SENT</div></div>
 </div>
 <div id="site-toast" class="toast"></div>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=4"></script>
 <script>
 let svc=null;
 const svcLabels={elderly:'Elderly Help',vehicle:'Vehicle Repair',driving:'Driving Assistance'};
 const svcIcons={elderly:'👴',vehicle:'🔧',driving:'🚗'};
+
+// Require a signed-in user session before allowing submit.
+const submitBtn = document.getElementById('submit-btn');
+if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Checking sign-in…'; }
+
+fetch(basePath() + 'api/me.php', { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+  .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })))
+  .then(({ status, json }) => {
+    if (status >= 200 && status < 300 && json.ok) {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Request'; }
+      return;
+    }
+    showToast('Please sign in first.');
+    window.location.href = basePath() + 'signin.html';
+  })
+  .catch(() => {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Request'; }
+    showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+  });
 function pickSvc(t,el){svc=t;document.querySelectorAll('.spc').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');document.getElementById('svc-err').style.display='none';}
 function goStep(n){
   if(n===2&&!svc){document.getElementById('svc-err').style.display='block';return;}
@@ -142,8 +161,46 @@ function doDetect(){
   navigator.geolocation.getCurrentPosition(p=>{inp.value=`Lat: ${p.coords.latitude.toFixed(5)}, Lng: ${p.coords.longitude.toFixed(5)}`;btn.textContent='Detected';btn.style.color='#4ade80';},()=>{btn.textContent='Detect';btn.disabled=false;},{timeout:8000});
 }
 function doSubmit(){
-  const btn=document.getElementById('submit-btn');btn.disabled=true;btn.textContent='Submitting…';
-  setTimeout(()=>goStep('done'),1500);
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='Submitting…';
+
+  const desc = (document.getElementById('req-desc')?.value || '').trim();
+  const urgency = (document.getElementById('req-urgency')?.value || 'normal').trim();
+  const locationText = (document.getElementById('req-loc')?.value || '').trim();
+  const landmark = (document.getElementById('req-lm')?.value || '').trim();
+
+  // Try to extract Lat/Lng from "Lat: x, Lng: y"
+  let latitude = null, longitude = null;
+  const m = locationText.match(/Lat:\s*(-?\d+(\.\d+)?)\s*,\s*Lng:\s*(-?\d+(\.\d+)?)/i);
+  if (m) { latitude = parseFloat(m[1]); longitude = parseFloat(m[3]); }
+
+  fetch(basePath() + 'api/create_request.php', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      serviceType: svc,
+      description: desc,
+      urgency,
+      locationText,
+      landmark,
+      latitude,
+      longitude,
+    }),
+  })
+    .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        goStep('done');
+        return;
+      }
+      showToast(json.error || 'Failed to submit request');
+      btn.disabled=false;btn.textContent='Submit Request';
+    })
+    .catch(() => {
+      showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+      btn.disabled=false;btn.textContent='Submit Request';
+    });
 }
 </script>
 </body></html>

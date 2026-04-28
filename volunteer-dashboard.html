@@ -27,7 +27,7 @@
       <div class="dash-nav-section">Account</div>
       <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Profile</a>
       <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Settings</a>
-      <a href="index.html" class="dash-nav-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon"></span> Sign Out</a>
+      <a href="#" class="dash-nav-link" id="vol-signout-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon"></span> Sign Out</a>
     </nav>
     <div class="dash-sidebar-footer">
       <div style="margin-bottom:.7rem;display:flex;align-items:center;justify-content:space-between">
@@ -39,7 +39,7 @@
       </div>
       <div class="dash-user-chip">
         <div class="dash-user-avatar">AK</div>
-        <div><div class="dash-user-name">Sharukh Kumar</div><div class="dash-user-role">Volunteer</div></div>
+        <div><div class="dash-user-name" id="vol-name">—</div><div class="dash-user-role">Volunteer</div></div>
       </div>
     </div>
   </aside>
@@ -69,22 +69,22 @@
       <div class="dash-grid-4">
         <div class="stat-card stat-card-accent">
           <div class="stat-card-top"><div class="stat-card-label">Cases Handled</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">23</div>
+          <div class="stat-card-val" id="stat-cases-handled">—</div>
           <div class="stat-card-sub">Total cases completed</div>
         </div>
         <div class="stat-card stat-card-green">
           <div class="stat-card-top"><div class="stat-card-label">Rating</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">4.8</div>
-          <div class="stat-card-sub">Average user rating</div>
+          <div class="stat-card-val" id="stat-rating-avg">—</div>
+          <div class="stat-card-sub"><span id="stat-rating-count">—</span> ratings</div>
         </div>
         <div class="stat-card stat-card-amber">
           <div class="stat-card-top"><div class="stat-card-label">Active Case</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">1</div>
+          <div class="stat-card-val" id="stat-active-cases">—</div>
           <div class="stat-card-sub">Currently handling</div>
         </div>
         <div class="stat-card">
           <div class="stat-card-top"><div class="stat-card-label">This Week</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">3</div>
+          <div class="stat-card-val" id="stat-this-week">—</div>
           <div class="stat-card-sub">Cases this week</div>
         </div>
       </div>
@@ -94,77 +94,24 @@
         <!-- Active Case -->
         <div>
           <div class="panel-card">
-            <div class="panel-card-title">Active Case <span class="badge badge-amber">In Progress</span></div>
-            <div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">
-              <div class="request-card-icon vehicle">🔧</div>
-              <div class="request-card-body">
-                <div class="request-card-title">Vehicle Repair — Flat Tyre</div>
-                <div class="request-card-meta">📍 NH66 near Varkala · Accepted 8:35 PM</div>
-                <div style="margin-top:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem">
-                  <div style="font-size:var(--text-xs);color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">User</div>
-                  <div style="display:flex;align-items:center;gap:.7rem">
-                    <div class="dash-user-avatar" style="width:30px;height:30px;font-size:.75rem">RP</div>
-                    <div><div style="font-size:var(--text-sm);color:var(--white);font-weight:600">Rajan Pillai</div><div style="font-size:var(--text-xs);color:var(--muted)">📞 +91 98765 43210</div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="map-placeholder"><span style="font-size:1.8rem">📍</span><span>User location map</span><span style="font-size:var(--text-xs)">Navigate to user</span></div>
-            <div style="margin-top:1rem;display:flex;gap:.6rem">
-              <button class="btn btn-primary btn-sm" style="flex:1">Call User</button>
-              <button class="btn btn-success btn-sm" style="flex:1" onclick="showToast('Case marked complete!')"> Mark Complete</button>
-            </div>
+            <div class="panel-card-title">Active Case</div>
+            <div id="active-case-container" style="color:var(--muted)">Loading…</div>
           </div>
         </div>
 
         <!-- Open Requests -->
         <div>
           <div class="panel-card">
-            <div class="panel-card-title">Open Requests Nearby <span class="badge badge-blue">3 new</span></div>
-            <div style="display:flex;flex-direction:column;gap:.6rem">
-
-              <div class="request-card">
-                <div class="request-card-icon elderly">👴</div>
-                <div class="request-card-body">
-                  <div class="request-card-title">Elderly Help — Welfare Check</div>
-                  <div class="request-card-meta">📍 Kazhakuttom · 2.1 km away · 9:10 PM</div>
-                </div>
-                <div class="request-card-actions">
-                  <button class="btn btn-primary btn-sm" onclick="showToast('Request accepted!')">Accept</button>
-                </div>
-              </div>
-
-              <div class="request-card">
-                <div class="request-card-icon driving">🚗</div>
-                <div class="request-card-body">
-                  <div class="request-card-title">Driving — Hospital Visit</div>
-                  <div class="request-card-meta">📍 Pattom · 3.8 km away · 9:05 PM</div>
-                </div>
-                <div class="request-card-actions">
-                  <button class="btn btn-primary btn-sm" onclick="showToast('Request accepted!')">Accept</button>
-                </div>
-              </div>
-
-              <div class="request-card">
-                <div class="request-card-icon vehicle">🔧</div>
-                <div class="request-card-body">
-                  <div class="request-card-title">Vehicle — Battery Jump</div>
-                  <div class="request-card-meta">📍 Technopark · 5.2 km away · 8:58 PM</div>
-                </div>
-                <div class="request-card-actions">
-                  <button class="btn btn-outline btn-sm" onclick="showToast('Request accepted!')">Accept</button>
-                </div>
-              </div>
-
+            <div class="panel-card-title">Open Requests Nearby <span class="badge badge-blue" id="open-req-count">—</span></div>
+            <div style="display:flex;flex-direction:column;gap:.6rem" id="open-requests-container">
+              <div style="color:var(--muted)">Loading…</div>
             </div>
           </div>
 
           <div class="panel-card">
             <div class="panel-card-title">Recent Cases</div>
-            <div class="timeline">
-              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Elderly Help</strong> — Welfare check for Mary George</div><div class="timeline-time">Yesterday, 10:20 PM · ⭐ 5.0</div></div></div>
-              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Vehicle Repair</strong> — Flat tyre on MC Road</div><div class="timeline-time">Mar 15, 11:05 PM · ⭐ 4.5</div></div></div>
-              <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Driving Assist</strong> — Hospital drop near KIMS</div><div class="timeline-time">Mar 14, 9:30 PM · ⭐ 5.0</div></div></div>
+            <div class="timeline" id="recent-cases-container">
+              <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text">Loading…</div></div></div>
             </div>
           </div>
         </div>
@@ -175,7 +122,7 @@
 </div>
 
 <div id="site-toast" class="toast"></div>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=4"></script>
 <script>
 document.getElementById('avail-toggle').addEventListener('change', function() {
   const label = document.getElementById('avail-label');
@@ -183,6 +130,160 @@ document.getElementById('avail-toggle').addEventListener('change', function() {
   label.style.color = this.checked ? 'var(--green)' : 'var(--muted)';
   showToast(this.checked ? 'You are now Online' : 'You are now Offline');
 });
+
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));}
+function serviceIcon(t){ if(t==='elderly')return '👴'; if(t==='vehicle')return '🔧'; if(t==='driving')return '🚗'; if(t==='sos')return '🚨'; return '❓'; }
+function serviceLabel(t){ if(t==='elderly')return 'Elderly Help'; if(t==='vehicle')return 'Vehicle Repair'; if(t==='driving')return 'Driving Assist'; if(t==='sos')return 'SOS'; return t; }
+function fmtTime(iso){ const d=new Date(iso); if(isNaN(d)) return escapeHtml(iso); return d.toLocaleString(); }
+
+function loadVolunteer(){
+  fetch(basePath()+'api/volunteer_me.php',{credentials:'same-origin',headers:{'Accept':'application/json'}})
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      if(status>=200&&status<300&&json.ok){
+        document.getElementById('vol-name').textContent=(json.volunteer?.name||'Volunteer');
+        return;
+      }
+      window.location.href=basePath()+'signin.html';
+    })
+    .catch(()=>showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'));
+}
+
+function renderActiveCase(active){
+  const c = document.getElementById('active-case-container');
+  if(!c) return;
+  if(!active){
+    c.textContent = 'No active case.';
+    return;
+  }
+  const phone = active.userPhone ? escapeHtml(active.userPhone) : '—';
+  const loc = escapeHtml(active.locationText || '');
+  c.innerHTML =
+    '<div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">' +
+      '<div class="request-card-icon">'+serviceIcon(active.serviceType)+'</div>' +
+      '<div class="request-card-body">' +
+        '<div class="request-card-title">'+escapeHtml(serviceLabel(active.serviceType))+'</div>' +
+        '<div class="request-card-meta">📍 '+loc+' · Assigned '+escapeHtml(fmtTime(active.assignedTime))+'</div>' +
+        '<div style="margin-top:.8rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem">' +
+          '<div style="font-size:var(--text-xs);color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">User</div>' +
+          '<div style="display:flex;align-items:center;gap:.7rem">' +
+            '<div class="dash-user-avatar" style="width:30px;height:30px;font-size:.75rem">'+escapeHtml(String(active.userName||'U').slice(0,2).toUpperCase())+'</div>' +
+            '<div><div style="font-size:var(--text-sm);color:var(--white);font-weight:600">'+escapeHtml(active.userName)+'</div><div style="font-size:var(--text-xs);color:var(--muted)">📞 '+phone+'</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+function renderRecentCases(rows){
+  const c = document.getElementById('recent-cases-container');
+  if(!c) return;
+  if(!rows || rows.length === 0){
+    c.innerHTML = '<div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text">No completed cases yet.</div></div></div>';
+    return;
+  }
+  c.innerHTML = rows.map(r=>{
+    const stars = (r.rating !== null && r.rating !== undefined) ? (' · ⭐ ' + escapeHtml(r.rating)) : '';
+    return (
+      '<div class="timeline-item">' +
+        '<div class="timeline-dot green"></div>' +
+        '<div>' +
+          '<div class="timeline-text"><strong>'+escapeHtml(serviceLabel(r.serviceType))+'</strong> — Helped '+escapeHtml(r.userName)+'</div>' +
+          '<div class="timeline-time">'+escapeHtml(fmtTime(r.time))+stars+'</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+function fetchVolunteerDashboard(){
+  fetch(basePath()+'api/volunteer_dashboard.php', { credentials:'same-origin', headers:{'Accept':'application/json'} })
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      if(!(status>=200&&status<300&&json.ok)){
+        showToast(json.error || 'Failed to load volunteer dashboard');
+        return;
+      }
+      const s = json.stats || {};
+      const setText = (id, val) => { const el=document.getElementById(id); if(el) el.textContent = (val ?? '—'); };
+      setText('stat-cases-handled', s.casesHandled ?? '0');
+      setText('stat-active-cases', s.activeCases ?? '0');
+      setText('stat-this-week', s.thisWeek ?? '0');
+      setText('stat-rating-avg', (s.ratingAvg === null || s.ratingAvg === undefined) ? '—' : String(s.ratingAvg));
+      setText('stat-rating-count', String(s.ratingCount ?? 0));
+      renderActiveCase(json.activeCase || null);
+      renderRecentCases(json.recentCases || []);
+    })
+    .catch(()=>showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'));
+}
+
+function acceptRequest(requestId, btn){
+  if(btn){btn.disabled=true;btn.textContent='Accepting…';}
+  fetch(basePath()+'api/volunteer_accept_request.php',{
+    method:'POST',
+    credentials:'same-origin',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({requestId})
+  })
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      if(status>=200&&status<300&&json.ok){ showToast('Request accepted'); fetchOpenRequests(); return; }
+      showToast(json.error||'Failed to accept');
+      if(btn){btn.disabled=false;btn.textContent='Accept';}
+    })
+    .catch(()=>{showToast('Backend not reachable'); if(btn){btn.disabled=false;btn.textContent='Accept';}});
+}
+
+function fetchOpenRequests(){
+  const c=document.getElementById('open-requests-container');
+  c.innerHTML='<div style="color:var(--muted)">Loading…</div>';
+  fetch(basePath()+'api/volunteer_list_open_requests.php?limit=20',{credentials:'same-origin',headers:{'Accept':'application/json'}})
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      if(!(status>=200&&status<300&&json.ok)){
+        c.innerHTML='<div style="color:var(--muted)">Failed to load.</div>';
+        return;
+      }
+      const rows=json.requests||[];
+      document.getElementById('open-req-count').textContent=String(rows.length);
+      if(rows.length===0){
+        c.innerHTML='<div style="color:var(--muted)">No open requests right now.</div>';
+        return;
+      }
+      c.innerHTML=rows.map(r=>{
+        const safeDesc = escapeHtml((r.description||'').split('\n')[0]).slice(0,90);
+        const safeLoc = escapeHtml(r.locationText||'');
+        return (
+          '<div class="request-card">' +
+            '<div class="request-card-icon">'+serviceIcon(r.serviceType)+'</div>' +
+            '<div class="request-card-body">' +
+              '<div class="request-card-title">'+escapeHtml(r.userName)+' — '+escapeHtml(r.serviceType)+'</div>' +
+              '<div class="request-card-meta">📍 '+safeLoc+' · '+escapeHtml(fmtTime(r.createdAt))+'</div>' +
+              (safeDesc?'<div style="margin-top:.35rem;color:var(--muted);font-size:var(--text-xs)">'+safeDesc+'</div>':'') +
+            '</div>' +
+            '<div class="request-card-actions">' +
+              '<button class="btn btn-primary btn-sm" data-request-id="'+r.requestId+'">Accept</button>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+
+      c.querySelectorAll('button[data-request-id]').forEach(b=>{
+        b.addEventListener('click',()=>acceptRequest(parseInt(b.dataset.requestId,10), b));
+      });
+    })
+    .catch(()=>{c.innerHTML='<div style="color:var(--muted)">Backend not reachable.</div>';});
+}
+
+document.getElementById('refresh-btn')?.addEventListener('click', fetchOpenRequests);
+document.getElementById('vol-signout-link')?.addEventListener('click',(e)=>{
+  e.preventDefault();
+  fetch(basePath()+'api/volunteer_logout.php',{method:'POST',credentials:'same-origin'}).catch(()=>{}).finally(()=>{window.location.href=basePath()+'index.html';});
+});
+
+loadVolunteer();
+fetchVolunteerDashboard();
+fetchOpenRequests();
 </script>
 </body>
 </html>

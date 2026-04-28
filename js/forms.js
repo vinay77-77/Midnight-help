@@ -97,9 +97,10 @@ function initSignin() {
     btn.disabled = true; btn.textContent = 'Signing in…';
     const payload = { email: getVal('si-email'), password: getVal('si-password') };
 
-    // Auto-detect: try admin first, then fall back to user.
+    // Auto-detect: admin → user → volunteer.
     fetch(basePath() + 'api/admin_login.php', {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
@@ -109,19 +110,34 @@ function initSignin() {
           window.location.href = basePath() + 'admin-dashboard.html';
           return null;
         }
-        // If admin login fails, try user login.
         return fetch(basePath() + 'api/login.php', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         })
           .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })));
       })
       .then((userResult) => {
-        if (!userResult) return; // already redirected as admin
+        if (!userResult) return null; // already redirected as admin
         const { status, json } = userResult;
         if (status >= 200 && status < 300 && json.ok) {
           window.location.href = basePath() + 'user-dashboard.html';
+          return null;
+        }
+        return fetch(basePath() + 'api/volunteer_login.php', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+          .then(r => r.json().catch(() => ({})).then(j => ({ status: r.status, json: j })));
+      })
+      .then((volunteerResult) => {
+        if (!volunteerResult) return; // already redirected
+        const { status, json } = volunteerResult;
+        if (status >= 200 && status < 300 && json.ok) {
+          window.location.href = basePath() + 'volunteer-dashboard.html';
           return;
         }
         showToast(json.error || 'Invalid email or password');

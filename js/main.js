@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Works for both /Midnight-help/... and /midnight-help/...
+function basePath() {
+  const seg = (window.location.pathname || '/').split('/').filter(Boolean)[0] || '';
+  return '/' + seg + '/';
+}
+
 function initNav() {
   const ham = document.querySelector('.nav-hamburger');
   const drawer = document.querySelector('.nav-drawer');
@@ -114,3 +120,4 @@ window.openSOSModal = openSOSModal;
 window.closeSOSModal = closeSOSModal;
 window.sendSOS = sendSOS;
 window.showToast = showToast;
+window.basePath = basePath;

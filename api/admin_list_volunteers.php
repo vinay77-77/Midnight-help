@@ -30,9 +30,11 @@ $sql = "
   SELECT
     r.responder_id,
     r.name,
+    r.email,
     r.phone,
     r.availability_status,
     r.verified,
+    r.is_active,
     r.created_at,
     r.updated_at,
     GROUP_CONCAT(rs.service_type ORDER BY rs.service_type SEPARATOR ',') AS services_csv
@@ -61,9 +63,11 @@ while ($row = $res->fetch_assoc()) {
   $volunteers[] = [
     'responderId' => (int)$row['responder_id'],
     'name' => (string)$row['name'],
+    'email' => (string)$row['email'],
     'phone' => (string)$row['phone'],
     'availabilityStatus' => (string)$row['availability_status'],
     'verified' => (int)$row['verified'] === 1,
+    'active' => (int)$row['is_active'] === 1,
     'services' => $services,
     'createdAt' => (string)$row['created_at'],
     'updatedAt' => (string)$row['updated_at'],

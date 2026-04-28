@@ -7,6 +7,48 @@
   <link rel="stylesheet" href="css/nav.css"/>
   <link rel="stylesheet" href="css/sections.css"/>
   <link rel="stylesheet" href="css/dashboard.css"/>
+  <style>
+    /* "Dot button" multi-select (still checkboxes) */
+    .dot-choice {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      cursor: pointer;
+      user-select: none;
+      padding: .55rem .75rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .dot-choice:hover { border-color: var(--border-lit); }
+    .dot-choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 1px;
+      height: 1px;
+    }
+    .dot-choice .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 2px solid var(--muted);
+      background: transparent;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.0);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      flex-shrink: 0;
+    }
+    .dot-choice input:checked + .dot {
+      border-color: var(--blue);
+      background: var(--blue);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.18);
+    }
+    .dot-choice .label {
+      color: var(--text);
+      font-size: var(--text-sm);
+    }
+  </style>
 </head>
 <body>
 <div class="dash-layout">
@@ -68,30 +110,30 @@
       <div class="dash-grid-4">
         <div class="stat-card stat-card-accent">
           <div class="stat-card-top"><div class="stat-card-label">Total Users</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">142</div>
+          <div class="stat-card-val" id="stat-total-users">—</div>
           <div class="stat-card-sub">Registered accounts</div>
         </div>
         <div class="stat-card stat-card-green">
           <div class="stat-card-top"><div class="stat-card-label">Volunteers</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">18</div>
-          <div class="stat-card-sub">12 currently online</div>
+          <div class="stat-card-val" id="stat-total-volunteers">—</div>
+          <div class="stat-card-sub"><span id="stat-online-volunteers">—</span> currently online</div>
         </div>
         <div class="stat-card stat-card-amber">
           <div class="stat-card-top"><div class="stat-card-label">Active Requests</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">7</div>
+          <div class="stat-card-val" id="stat-active-requests">—</div>
           <div class="stat-card-sub">In progress now</div>
         </div>
         <div class="stat-card stat-card-sos">
           <div class="stat-card-top"><div class="stat-card-label">SOS Alerts</div><div class="stat-card-icon">🚨</div></div>
-          <div class="stat-card-val">2</div>
+          <div class="stat-card-val" id="stat-sos-alerts">—</div>
           <div class="stat-card-sub">Needs attention</div>
         </div>
       </div>
 
       <!-- More stats -->
       <div class="dash-grid-3" style="margin-bottom:1.5rem">
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Total Requests Today</div><div class="stat-card-icon"></div></div><div class="stat-card-val">24</div><div class="stat-card-sub">19 resolved</div></div>
-        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Pending Verification</div><div class="stat-card-icon"></div></div><div class="stat-card-val">3</div><div class="stat-card-sub">Volunteer applications</div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Total Requests Today</div><div class="stat-card-icon"></div></div><div class="stat-card-val" id="stat-requests-today">—</div><div class="stat-card-sub"><span id="stat-resolved-today">—</span> resolved</div></div>
+        <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">Pending Verification</div><div class="stat-card-icon"></div></div><div class="stat-card-val" id="stat-pending-verification">—</div><div class="stat-card-sub">Volunteer applications</div></div>
         <div class="stat-card"><div class="stat-card-top"><div class="stat-card-label">System Status</div><div class="stat-card-icon"></div></div><div class="stat-card-val" style="font-size:var(--text-xl);color:var(--green)">Online</div><div class="stat-card-sub">All systems operational</div></div>
       </div>
 
@@ -106,11 +148,8 @@
           <div style="overflow-x:auto">
             <table class="data-table">
               <thead><tr><th>User</th><th>Service</th><th>Volunteer</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Rajan Pillai</td><td>🔧 Vehicle Repair</td><td>Ajith Kumar</td><td><span class="badge badge-amber">In Progress</span></td></tr>
-                <tr><td>Leela Devi</td><td>👴 Elderly Help</td><td>Meena Nair</td><td><span class="badge badge-blue">Matched</span></td></tr>
-                <tr><td>Thomas KJ</td><td>🚗 Driving</td><td><span style="color:var(--muted)">Unassigned</span></td><td><span class="badge badge-amber">Waiting</span></td></tr>
-                <tr><td>Priya S</td><td>🚨 SOS</td><td>Suresh Menon</td><td><span class="badge badge-sos">SOS Active</span></td></tr>
+              <tbody id="active-requests-body">
+                <tr><td colspan="4" style="color:var(--muted)">Loading…</td></tr>
               </tbody>
             </table>
           </div>
@@ -124,13 +163,9 @@
           </div>
           <div style="overflow-x:auto">
             <table class="data-table">
-              <thead><tr><th>Name</th><th>Skill</th><th>Status</th><th>Cases</th></tr></thead>
-              <tbody>
-                <tr><td>Ajith Kumar</td><td>Vehicle</td><td><span class="badge badge-amber">Active</span></td><td>23</td></tr>
-                <tr><td>Meena Nair</td><td>Elderly</td><td><span class="badge badge-amber">Active</span></td><td>31</td></tr>
-                <tr><td>Suresh Menon</td><td>Driving</td><td><span class="badge badge-sos">SOS</span></td><td>18</td></tr>
-                <tr><td>Anil Thomas</td><td>Vehicle</td><td><span class="badge badge-green">Online</span></td><td>14</td></tr>
-                <tr><td>Rekha V</td><td>Elderly</td><td><span class="badge badge-muted">Offline</span></td><td>9</td></tr>
+              <thead><tr><th>Name</th><th>Skill</th><th>Status</th></tr></thead>
+              <tbody id="volunteer-status-body">
+                <tr><td colspan="3" style="color:var(--muted)">Loading…</td></tr>
               </tbody>
             </table>
           </div>
@@ -138,42 +173,29 @@
 
       </div>
 
-      <!-- Pending volunteer verification -->
+      <!-- Recent activity -->
       <div class="panel-card">
-        <div class="panel-card-title">Pending Volunteer Verification <span class="badge badge-amber">3 pending</span></div>
-        <div style="display:flex;flex-direction:column;gap:.65rem">
-          <div class="request-card">
-            <div class="dash-user-avatar" style="width:40px;height:40px;font-size:.9rem;flex-shrink:0">JK</div>
-            <div class="request-card-body">
-              <div class="request-card-title">Jishnu K</div>
-              <div class="request-card-meta">Applied for Vehicle Specialist · Submitted Mar 16</div>
-            </div>
-            <div class="request-card-actions">
-              <button class="btn btn-success btn-sm" onclick="showToast('Volunteer approved!')">✓ Approve</button>
-              <button class="btn btn-sm" style="background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)" onclick="showToast('Volunteer rejected.')">✗ Reject</button>
-            </div>
-          </div>
-          <div class="request-card">
-            <div class="dash-user-avatar" style="width:40px;height:40px;font-size:.9rem;flex-shrink:0">NS</div>
-            <div class="request-card-body">
-              <div class="request-card-title">Nithya S</div>
-              <div class="request-card-meta">Applied for Elderly Care · Submitted Mar 15</div>
-            </div>
-            <div class="request-card-actions">
-              <button class="btn btn-success btn-sm" onclick="showToast('Volunteer approved!')">✓ Approve</button>
-              <button class="btn btn-sm" style="background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)" onclick="showToast('Volunteer rejected.')">✗ Reject</button>
-            </div>
-          </div>
+        <div class="panel-card-title">System Activity Log</div>
+        <div class="timeline" id="activity-log-container">
+          <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text">Loading activity…</div></div></div>
         </div>
       </div>
-
-      <!-- Create volunteer -->
       <div class="panel-card">
         <div class="panel-card-title">Create Volunteer</div>
         <form id="create-volunteer-form" style="display:flex;flex-direction:column;gap:.85rem" novalidate>
           <div class="field">
             <label for="cv-name" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Full Name *</label>
             <input id="cv-name" type="text" placeholder="e.g. Ajith Kumar" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;color:var(--white);outline:none" />
+          </div>
+          <div class="field">
+            <label for="cv-email" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Volunteer Login Email *</label>
+            <input id="cv-email" type="email" autocomplete="email" placeholder="volunteer@example.com" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;color:var(--white);outline:none" />
+            <div style="font-size:var(--text-xs);color:var(--muted);margin-top:.35rem">This email is used on the Sign In page (same place as users/admins).</div>
+          </div>
+          <div class="field">
+            <label for="cv-password" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Temporary Password *</label>
+            <input id="cv-password" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;color:var(--white);outline:none" />
+            <div style="font-size:var(--text-xs);color:var(--muted);margin-top:.35rem">Share this once with the volunteer out-of-band (SMS/WhatsApp). They can change it later once password reset exists.</div>
           </div>
           <div class="field">
             <label for="cv-phone" style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);">Phone *</label>
@@ -183,21 +205,25 @@
           <div class="field">
             <div style="font-family:var(--font-display);font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--off-white);margin-bottom:.35rem">Services</div>
             <div style="display:flex;flex-wrap:wrap;gap:.75rem">
-              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-                <input type="checkbox" value="elderly" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
-                <span style="color:var(--text);font-size:var(--text-sm)">👴 Elderly</span>
+              <label class="dot-choice">
+                <input type="checkbox" value="elderly" class="cv-service" />
+                <span class="dot" aria-hidden="true"></span>
+                <span class="label">👴 Elderly</span>
               </label>
-              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-                <input type="checkbox" value="vehicle" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
-                <span style="color:var(--text);font-size:var(--text-sm)">🔧 Vehicle</span>
+              <label class="dot-choice">
+                <input type="checkbox" value="vehicle" class="cv-service" />
+                <span class="dot" aria-hidden="true"></span>
+                <span class="label">🔧 Vehicle</span>
               </label>
-              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-                <input type="checkbox" value="driving" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
-                <span style="color:var(--text);font-size:var(--text-sm)">🚗 Driving</span>
+              <label class="dot-choice">
+                <input type="checkbox" value="driving" class="cv-service" />
+                <span class="dot" aria-hidden="true"></span>
+                <span class="label">🚗 Driving</span>
               </label>
-              <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-                <input type="checkbox" value="sos" class="cv-service" style="accent-color:var(--blue);width:16px;height:16px" />
-                <span style="color:var(--text);font-size:var(--text-sm)">🚨 SOS</span>
+              <label class="dot-choice">
+                <input type="checkbox" value="sos" class="cv-service" />
+                <span class="dot" aria-hidden="true"></span>
+                <span class="label">🚨 SOS</span>
               </label>
             </div>
             <div style="font-size:var(--text-xs);color:var(--muted);margin-top:.35rem">Leave blank to add volunteer without service tags for now.</div>
@@ -206,6 +232,11 @@
           <label style="display:flex;align-items:center;gap:.55rem;cursor:pointer">
             <input id="cv-verified" type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px" />
             <span style="color:var(--text);font-size:var(--text-sm)">Verified</span>
+          </label>
+
+          <label style="display:flex;align-items:center;gap:.55rem;cursor:pointer">
+            <input id="cv-active" type="checkbox" checked style="accent-color:var(--blue);width:16px;height:16px" />
+            <span style="color:var(--text);font-size:var(--text-sm)">Active</span>
           </label>
 
           <div style="display:flex;gap:.7rem;flex-wrap:wrap">
@@ -233,28 +264,19 @@
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Phone</th>
                 <th>Services</th>
                 <th>Status</th>
                 <th>Verified</th>
+                <th>Active</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="vol-table-body">
-              <tr><td colspan="6" style="color:var(--muted)">Loading…</td></tr>
+              <tr><td colspan="9" style="color:var(--muted)">Loading…</td></tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <!-- Recent activity -->
-      <div class="panel-card">
-        <div class="panel-card-title">System Activity Log</div>
-        <div class="timeline">
-          <div class="timeline-item"><div class="timeline-dot sos"></div><div><div class="timeline-text"><strong>SOS Alert</strong> — Priya S triggered emergency at Kazhakuttom</div><div class="timeline-time">Today, 9:14 PM</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot amber"></div><div><div class="timeline-text"><strong>New Request</strong> — Driving assist requested by Thomas KJ (unassigned)</div><div class="timeline-time">Today, 9:02 PM</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text"><strong>New User</strong> — Leela Devi registered</div><div class="timeline-time">Today, 8:55 PM</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot green"></div><div><div class="timeline-text"><strong>Case Completed</strong> — Ajith Kumar resolved vehicle repair for Suresh CV</div><div class="timeline-time">Today, 8:40 PM</div></div></div>
-          <div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text"><strong>Volunteer Online</strong> — Anil Thomas came online</div><div class="timeline-time">Today, 8:30 PM</div></div></div>
         </div>
       </div>
 
@@ -278,12 +300,18 @@ function getServices() {
 
 function clearCreateVolunteerForm() {
   const n = document.getElementById('cv-name');
+  const e = document.getElementById('cv-email');
+  const pw = document.getElementById('cv-password');
   const p = document.getElementById('cv-phone');
   if (n) n.value = '';
+  if (e) e.value = '';
+  if (pw) pw.value = '';
   if (p) p.value = '';
   document.querySelectorAll('.cv-service').forEach((el) => { el.checked = false; });
   const v = document.getElementById('cv-verified');
   if (v) v.checked = true;
+  const a = document.getElementById('cv-active');
+  if (a) a.checked = true;
 }
 
 function badge(text, kind) {
@@ -304,7 +332,7 @@ function renderVolunteers(rows) {
   const body = document.getElementById('vol-table-body');
   if (!body) return;
   if (!rows || rows.length === 0) {
-    body.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">No volunteers found.</td></tr>';
+    body.innerHTML = '<tr><td colspan="9" style="color:var(--muted)">No volunteers found.</td></tr>';
     return;
   }
   body.innerHTML = rows.map((v) => {
@@ -316,17 +344,203 @@ function renderVolunteers(rows) {
       : v.availabilityStatus === 'busy' ? 'Busy'
       : 'Offline';
     const verifiedText = v.verified ? badge('Verified', 'green') : badge('Unverified', 'muted');
+    const activeText = v.active ? badge('Active', 'green') : badge('Disabled', 'muted');
     return (
       '<tr>' +
         '<td>' + escapeHtml(v.responderId) + '</td>' +
         '<td>' + escapeHtml(v.name) + '</td>' +
+        '<td>' + escapeHtml(v.email) + '</td>' +
         '<td>' + escapeHtml(v.phone) + '</td>' +
         '<td>' + services + '</td>' +
         '<td>' + badge(statusText, statusKind) + '</td>' +
         '<td>' + verifiedText + '</td>' +
+        '<td>' + activeText + '</td>' +
+        '<td><button class="btn btn-sm" style="background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)" onclick="deleteVolunteer(' + escapeHtml(v.responderId) + ')">🗑 Delete</button></td>' +
       '</tr>'
     );
   }).join('');
+}
+
+function deleteVolunteer(responderId) {
+  if (!confirm('Are you sure you want to delete volunteer ID ' + responderId + '?')) return;
+
+  fetch(basePath() + 'api/admin_delete_volunteer.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ responderId: responderId }),
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        showToast('Volunteer deleted');
+        fetchVolunteers();
+        return;
+      }
+      showToast(json.error || 'Failed to delete volunteer');
+    })
+    .catch(() => showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'));
+}
+
+function serviceIcon(type) {
+  const map = { elderly: '👴 Elderly', vehicle: '🔧 Vehicle', driving: '🚗 Driving', sos: '🚨 SOS' };
+  return map[type] || type;
+}
+
+function statusBadge(status) {
+  const kind = status === 'completed' ? 'green'
+    : status === 'in_progress' ? 'amber'
+    : status === 'accepted' ? 'blue'
+    : status === 'pending' ? 'amber'
+    : 'muted';
+  const text = status === 'in_progress' ? 'In Progress'
+    : status === 'pending' ? 'Waiting'
+    : status.charAt(0).toUpperCase() + status.slice(1);
+  return badge(text, kind);
+}
+
+function fetchStats() {
+  fetch(basePath() + 'api/admin_stats.php', {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        const s = json.stats || {};
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        setText('stat-total-users', s.totalUsers ?? '—');
+        setText('stat-total-volunteers', s.totalVolunteers ?? '—');
+        setText('stat-online-volunteers', s.onlineVolunteers ?? '—');
+        setText('stat-active-requests', s.activeRequests ?? '—');
+        setText('stat-sos-alerts', s.sosAlerts ?? '—');
+        setText('stat-requests-today', s.requestsToday ?? '—');
+        setText('stat-resolved-today', s.resolvedToday ?? '—');
+        setText('stat-pending-verification', s.pendingVerification ?? '—');
+        return;
+      }
+      showToast(json.error || 'Failed to load stats');
+    })
+    .catch(() => showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'));
+}
+
+function renderActiveRequests(rows) {
+  const body = document.getElementById('active-requests-body');
+  if (!body) return;
+  if (!rows || rows.length === 0) {
+    body.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">No active requests.</td></tr>';
+    return;
+  }
+  body.innerHTML = rows.slice(0, 5).map((r) => {
+    const volunteer = r.responderName || '<span style="color:var(--muted)">Unassigned</span>';
+    return (
+      '<tr>' +
+        '<td>' + escapeHtml(r.userName) + '</td>' +
+        '<td>' + serviceIcon(r.serviceType) + '</td>' +
+        '<td>' + volunteer + '</td>' +
+        '<td>' + statusBadge(r.status) + '</td>' +
+      '</tr>'
+    );
+  }).join('');
+}
+
+function fetchActiveRequests() {
+  fetch(basePath() + 'api/admin_list_requests.php?status=active', {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        renderActiveRequests(json.requests || []);
+        return;
+      }
+      renderActiveRequests([]);
+      showToast(json.error || 'Failed to load requests');
+    })
+    .catch(() => {
+      renderActiveRequests([]);
+      showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
+    });
+}
+
+function renderVolunteerStatus(rows) {
+  const body = document.getElementById('volunteer-status-body');
+  if (!body) return;
+  if (!rows || rows.length === 0) {
+    body.innerHTML = '<tr><td colspan="3" style="color:var(--muted)">No volunteers.</td></tr>';
+    return;
+  }
+  body.innerHTML = rows.slice(0, 5).map((v) => {
+    const services = (v.services || []).map(escapeHtml).join(', ') || '—';
+    const statusKind = v.availabilityStatus === 'available' ? 'green'
+      : v.availabilityStatus === 'busy' ? 'amber'
+      : 'muted';
+    const statusText = v.availabilityStatus === 'available' ? 'Online'
+      : v.availabilityStatus === 'busy' ? 'Busy'
+      : 'Offline';
+    return (
+      '<tr>' +
+        '<td>' + escapeHtml(v.name) + '</td>' +
+        '<td>' + services + '</td>' +
+        '<td>' + badge(statusText, statusKind) + '</td>' +
+      '</tr>'
+    );
+  }).join('');
+}
+
+function renderActivityLog(events) {
+  const container = document.getElementById('activity-log-container');
+  if (!container) return;
+  if (!events || events.length === 0) {
+    container.innerHTML = '<div class="timeline-item"><div class="timeline-dot blue"></div><div><div class="timeline-text">No recent activity.</div></div></div>';
+    return;
+  }
+  const dotClass = (type) => {
+    if (type === 'sos') return 'sos';
+    if (type === 'request') return 'amber';
+    if (type === 'completed') return 'green';
+    if (type === 'user') return 'blue';
+    return 'blue';
+  };
+  const fmtTime = (iso) => {
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    const now = new Date();
+    const diffMs = now - d;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return diffMins + ' min ago';
+    if (diffHours < 24) return diffHours + ' hr ago';
+    if (diffDays < 7) return diffDays + ' days ago';
+    return d.toLocaleDateString();
+  };
+  container.innerHTML = events.map((ev) => (
+    '<div class="timeline-item">' +
+      '<div class="timeline-dot ' + dotClass(ev.type) + '"></div>' +
+      '<div>' +
+        '<div class="timeline-text"><strong>' + escapeHtml(ev.title) + '</strong> — ' + ev.text + '</div>' +
+        '<div class="timeline-time">' + fmtTime(ev.time) + '</div>' +
+      '</div>' +
+    '</div>'
+  )).join('');
+}
+
+function fetchActivityLog() {
+  fetch(basePath() + 'api/admin_activity_log.php', {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  })
+    .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
+    .then(({ status, json }) => {
+      if (status >= 200 && status < 300 && json.ok) {
+        renderActivityLog(json.events || []);
+        return;
+      }
+      renderActivityLog([]);
+    })
+    .catch(() => renderActivityLog([]));
 }
 
 function fetchVolunteers() {
@@ -345,13 +559,16 @@ function fetchVolunteers() {
     .then(({ status, json }) => {
       if (status >= 200 && status < 300 && json.ok) {
         renderVolunteers(json.volunteers || []);
+        renderVolunteerStatus(json.volunteers || []);
         return;
       }
       renderVolunteers([]);
+      renderVolunteerStatus([]);
       showToast(json.error || 'Failed to load volunteers');
     })
     .catch(() => {
       renderVolunteers([]);
+      renderVolunteerStatus([]);
       showToast('Backend not reachable. Run via XAMPP (http://localhost/...)');
     })
     .finally(() => {
@@ -367,11 +584,16 @@ document.getElementById('create-volunteer-form')?.addEventListener('submit', (e)
   e.preventDefault();
 
   const name = (document.getElementById('cv-name')?.value || '').trim();
+  const email = (document.getElementById('cv-email')?.value || '').trim();
+  const password = document.getElementById('cv-password')?.value || '';
   const phone = (document.getElementById('cv-phone')?.value || '').trim();
   const verified = document.getElementById('cv-verified')?.checked ? 1 : 0;
+  const isActive = document.getElementById('cv-active')?.checked ? 1 : 0;
   const services = getServices();
 
   if (name.length < 2) { showToast('Name is required'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Valid volunteer email required'); return; }
+  if (password.length < 8) { showToast('Volunteer password must be at least 8 characters'); return; }
   if (phone.replace(/[\s\-()]/g, '').length < 7) { showToast('Valid phone required'); return; }
 
   const btn = document.getElementById('cv-submit-btn');
@@ -380,7 +602,7 @@ document.getElementById('create-volunteer-form')?.addEventListener('submit', (e)
   fetch(basePath() + 'api/admin_create_volunteer.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, phone, verified, services }),
+    body: JSON.stringify({ name, email, password, phone, verified, isActive, services }),
   })
     .then((r) => r.json().catch(() => ({})).then((j) => ({ status: r.status, json: j })))
     .then(({ status, json }) => {
@@ -398,6 +620,9 @@ document.getElementById('create-volunteer-form')?.addEventListener('submit', (e)
     });
 });
 
+fetchStats();
+fetchActiveRequests();
+fetchActivityLog();
 fetchVolunteers();
 </script>
 </body>

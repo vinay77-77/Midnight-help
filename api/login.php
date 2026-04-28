@@ -23,6 +23,7 @@ if ((int)$row['is_active'] !== 1) json_response(['ok' => false, 'error' => 'Acco
 if (!password_verify($pass, (string)$row['password_hash'])) json_response(['ok' => false, 'error' => 'Invalid email or password'], 401);
 
 session_start();
+unset($_SESSION['admin_id'], $_SESSION['responder_id']);
 $_SESSION['user_id'] = (int)$row['user_id'];
 
 json_response([

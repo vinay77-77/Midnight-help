@@ -25,12 +25,12 @@
       <div class="dash-nav-section">Account</div>
       <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Profile</a>
       <a href="#" class="dash-nav-link"><span class="nav-icon"></span> Settings</a>
-      <a href="index.html" class="dash-nav-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon">🚪</span> Sign Out</a>
+      <a href="#" class="dash-nav-link" id="user-signout-link" style="margin-top:1rem;color:var(--muted)"><span class="nav-icon">🚪</span> Sign Out</a>
     </nav>
     <div class="dash-sidebar-footer">
       <div class="dash-user-chip">
-        <div class="dash-user-avatar">RP</div>
-        <div><div class="dash-user-name">Sharukh Kumar</div><div class="dash-user-role">User</div></div>
+        <div class="dash-user-avatar" id="user-avatar">U</div>
+        <div><div class="dash-user-name" id="user-name">—</div><div class="dash-user-role">User</div></div>
       </div>
     </div>
   </aside>
@@ -57,24 +57,24 @@
       <!-- Alert banner -->
       <div class="alert-banner info">
         <span>ℹ️</span>
-        <span>Welcome back, SRK. You have <strong>1 active request</strong> in progress.</span>
+        <span id="welcome-text">Welcome back. You have <strong id="active-count">—</strong> active request(s).</span>
       </div>
 
       <!-- Stat cards -->
       <div class="dash-grid-4">
         <div class="stat-card stat-card-accent">
           <div class="stat-card-top"><div class="stat-card-label">Total Requests</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">7</div>
+          <div class="stat-card-val" id="stat-total">—</div>
           <div class="stat-card-sub">Since joining</div>
         </div>
         <div class="stat-card stat-card-green">
           <div class="stat-card-top"><div class="stat-card-label">Completed</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">6</div>
+          <div class="stat-card-val" id="stat-completed">—</div>
           <div class="stat-card-sub">Successfully resolved</div>
         </div>
         <div class="stat-card stat-card-amber">
           <div class="stat-card-top"><div class="stat-card-label">Active</div><div class="stat-card-icon"></div></div>
-          <div class="stat-card-val">1</div>
+          <div class="stat-card-val" id="stat-active">—</div>
           <div class="stat-card-sub">In progress now</div>
         </div>
         
@@ -83,30 +83,8 @@
       <!-- Active request + quick actions -->
       <div class="dash-grid-2">
         <div class="panel-card">
-          <div class="panel-card-title">Active Request <span class="badge badge-amber">In Progress</span></div>
-          <div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">
-            <div class="request-card-icon vehicle">🔧</div>
-            <div class="request-card-body">
-              <div class="request-card-title">Vehicle Repair — Flat Tyre</div>
-              <div class="request-card-meta">📍 NH66 near Varkala · Submitted 8:32 PM</div>
-              <div style="margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap">
-                <span class="badge badge-amber">Volunteer En Route</span>
-              </div>
-              <div style="margin-top:.9rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem">
-                <div style="font-size:var(--text-xs);color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em">Assigned Volunteer</div>
-                <div style="display:flex;align-items:center;gap:.7rem">
-                  <div class="dash-user-avatar" style="width:30px;height:30px;font-size:.75rem">AK</div>
-                  <div><div style="font-size:var(--text-sm);color:var(--white);font-weight:600">Ranbir Singh</div><div style="font-size:var(--text-xs);color:var(--muted)">Vehicle Specialist · ⭐ 4.8</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="map-placeholder"><span style="font-size:1.8rem">📍</span><span>Live map will show here</span><span style="font-size:var(--text-xs)">Volunteer location tracking</span></div>
-          <div style="margin-top:1rem;display:flex;gap:.6rem">
-            <button class="btn btn-outline btn-sm" style="flex:1">💬 Chat</button>
-            <button class="btn btn-outline btn-sm" style="flex:1">📞 Call</button>
-            <button class="btn btn-sm" style="flex:1;background:var(--sos-dim);color:var(--sos-light);border:1px solid var(--sos-border)">Cancel</button>
-          </div>
+          <div class="panel-card-title">Active Request</div>
+          <div id="active-request-card" style="color:var(--muted)">No active request.</div>
         </div>
 
         <div>
@@ -139,11 +117,8 @@
         <div style="overflow-x:auto">
           <table class="data-table">
             <thead><tr><th>Service</th><th>Date</th><th>Volunteer</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody>
-              <tr><td>🔧 Vehicle Repair</td><td>Today 8:32 PM</td><td>Ajith Kumar</td><td><span class="badge badge-amber">In Progress</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
-              <tr><td>👴 Elderly Help</td><td>Yesterday 9:00 PM</td><td>Meena Nair</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
-              <tr><td>🚗 Driving Assist</td><td>Mar 14</td><td>Suresh Menon</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
-              <tr><td>🔧 Vehicle Repair</td><td>Mar 10</td><td>Anil Ambaani</td><td><span class="badge badge-green">Completed</span></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+            <tbody id="user-requests-body">
+              <tr><td colspan="5" style="color:var(--muted)">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -167,6 +142,100 @@
   </div>
 </div>
 <div id="site-toast" class="toast"></div>
-<script src="js/main.js"></script><script src="js/sos.js"></script>
+<script src="js/main.js?v=4"></script><script src="js/sos.js?v=4"></script>
+<script>
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));}
+function badge(text, kind){return '<span class="badge badge-'+kind+'">'+escapeHtml(text)+'</span>';}
+function statusBadge(st){
+  if(st==='completed')return badge('Completed','green');
+  if(st==='cancelled')return badge('Cancelled','muted');
+  if(st==='pending')return badge('Pending','blue');
+  return badge(st.replace(/_/g,' ').toUpperCase(),'amber');
+}
+function serviceIcon(t){
+  if(t==='elderly')return '👴 Elderly Help';
+  if(t==='vehicle')return '🔧 Vehicle Repair';
+  if(t==='driving')return '🚗 Driving Help';
+  if(t==='sos')return '🚨 SOS';
+  return escapeHtml(t);
+}
+function fmtTime(iso){
+  const d=new Date(iso); if(isNaN(d)) return escapeHtml(iso);
+  return d.toLocaleString();
+}
+
+function loadUser(){
+  fetch(basePath()+'api/me.php',{credentials:'same-origin',headers:{'Accept':'application/json'}})
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      if(status>=200&&status<300&&json.ok){
+        const u=json.user||{};
+        const name=(u.name||'').trim();
+        document.getElementById('user-name').textContent=name||'User';
+        document.getElementById('user-avatar').textContent=(name?name.split(/\s+/).map(p=>p[0]).slice(0,2).join(''):'U').toUpperCase();
+        return;
+      }
+      window.location.href=basePath()+'signin.html';
+    })
+    .catch(()=>showToast('Backend not reachable. Run via XAMPP (http://localhost/...)'));
+}
+
+function loadRequests(){
+  fetch(basePath()+'api/user_list_requests.php?limit=50',{credentials:'same-origin',headers:{'Accept':'application/json'}})
+    .then(r=>r.json().catch(()=>({})).then(j=>({status:r.status,json:j})))
+    .then(({status,json})=>{
+      const body=document.getElementById('user-requests-body');
+      if(!(status>=200&&status<300&&json.ok)){ body.innerHTML='<tr><td colspan="5" style="color:var(--muted)">Failed to load.</td></tr>'; return; }
+      const rows=json.requests||[];
+      const total=rows.length;
+      const active=rows.filter(r=>['pending','accepted','in_progress'].includes(r.status)).length;
+      const completed=rows.filter(r=>r.status==='completed').length;
+      document.getElementById('stat-total').textContent=String(total);
+      document.getElementById('stat-active').textContent=String(active);
+      document.getElementById('stat-completed').textContent=String(completed);
+      document.getElementById('active-count').textContent=String(active);
+
+      // Active request card
+      const activeRow=rows.find(r=>['pending','accepted','in_progress'].includes(r.status));
+      const activeCard=document.getElementById('active-request-card');
+      if(activeRow){
+        activeCard.innerHTML=
+          '<div class="request-card" style="border-color:var(--blue-border);background:var(--blue-dim)">' +
+            '<div class="request-card-body">' +
+              '<div class="request-card-title">'+escapeHtml(serviceIcon(activeRow.serviceType))+'</div>' +
+              '<div class="request-card-meta">📍 '+escapeHtml(activeRow.locationText||'')+' · Submitted '+escapeHtml(fmtTime(activeRow.createdAt))+'</div>' +
+              '<div style="margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap">'+statusBadge(activeRow.status)+'</div>' +
+              '<div style="margin-top:.7rem;color:var(--muted);font-size:var(--text-xs)">Volunteer: '+(activeRow.responderName?escapeHtml(activeRow.responderName):'<span style="color:var(--muted)">Unassigned</span>')+'</div>' +
+            '</div>' +
+          '</div>';
+      } else {
+        activeCard.textContent='No active request.';
+      }
+
+      if(rows.length===0){
+        body.innerHTML='<tr><td colspan="5" style="color:var(--muted)">No requests yet.</td></tr>';
+        return;
+      }
+      body.innerHTML=rows.slice(0,10).map(r=>(
+        '<tr>' +
+          '<td>'+escapeHtml(serviceIcon(r.serviceType))+'</td>' +
+          '<td>'+escapeHtml(fmtTime(r.createdAt))+'</td>' +
+          '<td>'+(r.responderName?escapeHtml(r.responderName):'<span style="color:var(--muted)">—</span>')+'</td>' +
+          '<td>'+statusBadge(r.status)+'</td>' +
+          '<td><a class="btn btn-ghost btn-sm" href="request-service.html">New</a></td>' +
+        '</tr>'
+      )).join('');
+    })
+    .catch(()=>{document.getElementById('user-requests-body').innerHTML='<tr><td colspan="5" style="color:var(--muted)">Backend not reachable.</td></tr>';});
+}
+
+document.getElementById('user-signout-link')?.addEventListener('click',(e)=>{
+  e.preventDefault();
+  fetch(basePath()+'api/logout.php',{method:'POST',credentials:'same-origin'}).catch(()=>{}).finally(()=>{window.location.href=basePath()+'index.html';});
+});
+
+loadUser();
+loadRequests();
+</script>
 </body>
 </html>

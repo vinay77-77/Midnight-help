@@ -44,14 +44,18 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS responders (
   responder_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(120) NOT NULL,
+  email VARCHAR(254) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
   phone VARCHAR(32) NOT NULL,
   availability_status ENUM('available','busy','offline') NOT NULL DEFAULT 'available',
   verified TINYINT(1) NOT NULL DEFAULT 0,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
   created_by_admin_id BIGINT UNSIGNED NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (responder_id),
   UNIQUE KEY uq_responders_phone (phone),
+  UNIQUE KEY uq_responders_email (email),
   KEY idx_responders_availability (availability_status, verified),
   CONSTRAINT fk_responders_created_by_admin
     FOREIGN KEY (created_by_admin_id) REFERENCES admins(admin_id)
